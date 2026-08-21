@@ -49,10 +49,10 @@ if ($sheetData === false) {
     $headers = $sheetData['headers'];
     $candidates = $sheetData['data'];
     
-    // Sort by Column A (Timestamp), assuming Column A is index 0
+    // Sort by Column C (Timestamp), assuming Column C is index 2
     usort($candidates, function($a, $b) {
-        $timeA = strtotime($a[0] ?? 0);
-        $timeB = strtotime($b[0] ?? 0);
+        $timeA = strtotime($a[2] ?? 0);
+        $timeB = strtotime($b[2] ?? 0);
         return $timeB <=> $timeA; // Descending
     });
     
@@ -107,10 +107,9 @@ if ($sheetData === false) {
                     <thead>
                         <tr>
                             <th>Timestamp</th>
-                            <!-- Adjust these based on the actual columns in your sheet -->
-                            <th>Name / Info 1</th>
-                            <th>Contact / Info 2</th>
-                            <th>Info 3</th>
+                            <th>Name</th>
+                            <th>Position Interested</th>
+                            <th>Contact</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -118,10 +117,14 @@ if ($sheetData === false) {
                         <?php if (count($candidates) > 0): ?>
                             <?php foreach ($candidates as $row): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($row[0] ?? ''); ?></td>
-                                    <td><?php echo htmlspecialchars($row[1] ?? 'N/A'); ?></td>
-                                    <td><?php echo htmlspecialchars($row[2] ?? 'N/A'); ?></td>
+                                    <!-- [2] = Timestamp, [23] = Name, [3] = Position, [25] = Email, [24] = Phone -->
+                                    <td><?php echo htmlspecialchars($row[2] ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($row[23] ?? 'N/A'); ?></td>
                                     <td><?php echo htmlspecialchars($row[3] ?? 'N/A'); ?></td>
+                                    <td>
+                                        <?php echo htmlspecialchars($row[25] ?? ''); ?><br>
+                                        <small style="color: #666;"><?php echo htmlspecialchars($row[24] ?? ''); ?></small>
+                                    </td>
                                     <td>
                                         <a href="details.php?id=<?php echo $row['original_index']; ?>" class="action-link">View Details</a>
                                     </td>
