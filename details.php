@@ -31,7 +31,7 @@ function getCandidateDetails($rowIndex) {
             $headers = $row;
         } elseif ($currentIndex == $rowIndex) {
             $targetData = $row;
-            break; // Found our target row
+            break; 
         }
         $currentIndex++;
     }
@@ -56,9 +56,9 @@ if ($details === false) {
     $headers = $details['headers'];
     $data = $details['data'];
     
-    $name = $data[23] ?? 'Candidate Details'; // ชื่อ-นามสกุล
-    $nickname = $data[22] ?? '';
-    if ($nickname) {
+    $name = trim($data[23] ?? 'Candidate Details');
+    $nickname = trim($data[22] ?? '');
+    if ($nickname !== '') {
         $name .= " ($nickname)";
     }
 }
@@ -76,76 +76,87 @@ if ($details === false) {
             grid-template-columns: 1fr;
             gap: 2rem;
         }
-        @media (min-width: 768px) {
+        @media (min-width: 900px) {
             .details-grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
         .section-card {
             background: #fff;
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 1.5rem;
-            border-top: 4px solid var(--primary-color);
+            border: 1px solid #dee2e6;
+            margin-bottom: 2rem;
         }
         .section-card h3 {
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #212529;
+            font-size: 1.25rem;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 0.75rem;
         }
         .info-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
         .info-label {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #6c757d;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.4rem;
         }
         .info-value {
             font-size: 1rem;
             color: #212529;
             word-break: break-word;
+            line-height: 1.6;
         }
-        .badge {
-            display: inline-block;
-            background: #e9ecef;
-            color: #495057;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            margin: 2px;
-        }
-        .badge-primary {
-            background: #cfe2ff;
-            color: #084298;
+        .info-value p {
+            margin-bottom: 0;
         }
         .header-banner {
-            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
-            color: white;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #212529;
             padding: 2rem;
             border-radius: 8px;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .header-banner h2 { margin: 0 0 0.5rem 0; font-size: 2rem; }
-        .header-banner p { margin: 0; opacity: 0.9; }
+        .header-banner h2 { 
+            margin: 0 0 0.5rem 0; 
+            font-size: 1.75rem; 
+        }
+        .header-banner p { 
+            margin: 0; 
+            color: #6c757d; 
+        }
         .link-button {
             display: inline-block;
-            background: var(--primary-color);
-            color: white;
-            padding: 6px 12px;
+            background: #e9ecef;
+            color: #212529;
+            padding: 8px 16px;
             text-decoration: none;
             border-radius: 4px;
             font-size: 0.9rem;
+            border: 1px solid #ced4da;
+            margin-right: 0.5rem;
             margin-top: 0.5rem;
         }
-        .link-button:hover { background: var(--primary-hover); }
+        .link-button:hover { 
+            background: #dde2e6; 
+        }
+        .position-tag {
+            display: inline-block;
+            background: #f1f3f5;
+            color: #495057;
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            margin: 4px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -157,7 +168,7 @@ if ($details === false) {
         </div>
     </nav>
     
-    <div class="container">
+    <div class="container" style="max-width: 1200px;">
         <a href="index.php" class="back-link" style="margin-bottom: 1.5rem; display:inline-block;">&larr; Back to Dashboard</a>
         
         <?php if ($error): ?>
@@ -165,103 +176,108 @@ if ($details === false) {
         <?php else: ?>
             
             <div class="header-banner">
-                <h2><?php echo htmlspecialchars($name); ?></h2>
-                <p>Submitted: <?php echo htmlspecialchars($data[2] ?? '-'); ?></p>
+                <div>
+                    <h2><?php echo htmlspecialchars($name); ?></h2>
+                    <p>Submitted at: <?php echo htmlspecialchars($data[2] ?? '-'); ?> | ID: <?php echo htmlspecialchars($data[0] ?? '-'); ?></p>
+                </div>
+                <div>
+                    <?php if(!empty($data[28])): ?>
+                        <a href="<?php echo htmlspecialchars($data[28]); ?>" target="_blank" class="link-button">View Resume/File</a>
+                    <?php endif; ?>
+                    <?php if(!empty($data[29])): ?>
+                        <a href="<?php echo htmlspecialchars($data[29]); ?>" target="_blank" class="link-button">View Portfolio Link</a>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <div class="details-grid">
-                <!-- Column 1 -->
+                <!-- Left Column -->
                 <div>
                     <div class="section-card">
-                        <h3>Personal & Contact Info</h3>
+                        <h3>ข้อมูลส่วนตัว (Personal Info)</h3>
                         <div class="info-group">
-                            <div class="info-label">Phone</div>
-                            <div class="info-value"><a href="tel:<?php echo htmlspecialchars($data[24] ?? ''); ?>"><?php echo htmlspecialchars($data[24] ?? '-'); ?></a></div>
+                            <div class="info-label">เบอร์โทรศัพท์</div>
+                            <div class="info-value"><?php echo htmlspecialchars($data[24] ?? '-'); ?></div>
                         </div>
                         <div class="info-group">
-                            <div class="info-label">Email</div>
-                            <div class="info-value"><a href="mailto:<?php echo htmlspecialchars($data[25] ?? ''); ?>"><?php echo htmlspecialchars($data[25] ?? '-'); ?></a></div>
+                            <div class="info-label">อีเมล</div>
+                            <div class="info-value"><?php echo htmlspecialchars($data[25] ?? '-'); ?></div>
                         </div>
                         <div class="info-group">
-                            <div class="info-label">Date of Birth</div>
+                            <div class="info-label">วันเดือนปีเกิด</div>
                             <div class="info-value"><?php echo htmlspecialchars($data[26] ?? '-'); ?></div>
                         </div>
                         <div class="info-group">
-                            <div class="info-label">Education</div>
+                            <div class="info-label">วุฒิการศึกษา</div>
                             <div class="info-value"><?php echo htmlspecialchars($data[27] ?? '-'); ?></div>
                         </div>
-                        <div class="info-group">
-                            <div class="info-label">Salary Expectation</div>
-                            <div class="info-value">
-                                Expected: <?php echo htmlspecialchars($data[42] ?? '-'); ?> <br>
-                                Minimum: <span style="color: #dc3545; font-weight: bold;"><?php echo htmlspecialchars($data[43] ?? '-'); ?></span>
-                            </div>
-                        </div>
-                        
-                        <?php if(!empty($data[28]) || !empty($data[29])): ?>
-                        <div class="info-group">
-                            <div class="info-label">Resume / Portfolio</div>
-                            <div class="info-value">
-                                <?php if(!empty($data[28])): ?>
-                                    <a href="<?php echo htmlspecialchars($data[28]); ?>" target="_blank" class="link-button">View File</a>
-                                <?php endif; ?>
-                                <?php if(!empty($data[29])): ?>
-                                    <a href="<?php echo htmlspecialchars($data[29]); ?>" target="_blank" class="link-button" style="background:#198754;">View Link</a>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <?php endif; ?>
                     </div>
-                    
+
                     <div class="section-card">
-                        <h3>Positions Interested</h3>
-                        <div class="info-value">
-                            <?php 
-                            // Render positions (Col 3 to 20)
-                            for ($i = 3; $i <= 20; $i++) {
-                                if (isset($data[$i]) && (trim($data[$i]) === 'TRUE' || (trim($data[$i]) !== '' && trim($data[$i]) !== 'FALSE'))) {
-                                    $posName = $headers[$i] ?? "Position $i";
-                                    $posName = str_replace('ตำแหน่งที่สนใจ (สามารถสนใจหลายตำแหน่งได้) (', '', $posName);
-                                    $posName = str_replace(')', '', $posName);
-                                    echo '<span class="badge badge-primary">' . htmlspecialchars(trim($posName)) . '</span> ';
+                        <h3>การสมัครงาน (Job Application)</h3>
+                        <div class="info-group">
+                            <div class="info-label">ตำแหน่งที่สนใจ</div>
+                            <div class="info-value" style="margin-top: 0.5rem;">
+                                <?php 
+                                $hasPosition = false;
+                                for ($i = 3; $i <= 20; $i++) {
+                                    $val = trim($data[$i] ?? '');
+                                    if ($val === 'TRUE' || ($val !== '' && $val !== 'FALSE')) {
+                                        $posName = $headers[$i] ?? "Position $i";
+                                        $posName = str_replace('ตำแหน่งที่สนใจ (สามารถสนใจหลายตำแหน่งได้) (', '', $posName);
+                                        $posName = str_replace(')', '', $posName);
+                                        echo '<span class="position-tag">' . htmlspecialchars(trim($posName)) . '</span>';
+                                        $hasPosition = true;
+                                    }
                                 }
-                            }
-                            ?>
+                                if (!$hasPosition) {
+                                    echo "-";
+                                }
+                                ?>
+                            </div>
                         </div>
-                        <div class="info-group" style="margin-top: 1rem;">
-                            <div class="info-label">Why interested?</div>
+                        <div class="info-group">
+                            <div class="info-label">ทำไมถึงสนใจตำแหน่งที่เลือก</div>
                             <div class="info-value"><?php echo nl2br(htmlspecialchars($data[21] ?? '-')); ?></div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">เงินเดือนที่คาดหวัง</div>
+                            <div class="info-value"><?php echo htmlspecialchars($data[42] ?? '-'); ?></div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">เงินเดือนเริ่มต้นที่รับได้</div>
+                            <div class="info-value" style="font-weight: 600;"><?php echo htmlspecialchars($data[43] ?? '-'); ?></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Column 2 -->
+                <!-- Right Column -->
                 <div>
                     <div class="section-card">
-                        <h3>Attitude & Mindset</h3>
-                        
+                        <h3>ทัศนคติและเป้าหมาย (Attitude & Mindset)</h3>
                         <?php 
                         $mindsetCols = [
-                            30 => "คุณคิดว่าคุณเก่งอะไร หรือ ภูมิใจอะไร 3 เรื่อง",
-                            31 => "เป้าหมายของคุณในอีก 3 ปีข้างหน้า",
-                            32 => "ข้อเสียของคุณในมุมมองของคุณคือ",
+                            30 => "คุณคิดว่าคุณเก่งอะไร หรือ ภูมิใจอะไร 3 เรื่อง เล่าเหตุการณ์ให้ฟังหน่อย",
                             37 => "ข้อดีของคุณในมุมมองของคุณคือ",
+                            32 => "ข้อเสียของคุณในมุมมองของคุณคือ",
+                            31 => "เป้าหมายของคุณในอีก 3 ปีข้างหน้า",
                             33 => "นิยามของคำว่า WORK LIFE BALANCE ใกล้เคียงข้อใดที่สุด",
                             34 => "คุณรู้สึกอย่างไร เมื่อหัวหน้าที่ให้งานคุณเยอะเกินไป",
                             35 => "สถานการณ์แบบใดมีโอกาสที่อาจทำให้คุณ Burnout",
-                            36 => "ชอบ Lifestyle การทำงานแบบไหน เพราะอะไร",
-                            38 => "เมื่อทำงานกับทีม รู้สึกสนุกที่จะทำหน้าที่อะไรมากที่สุด",
+                            36 => "ชอบ Lifestyle การทำงานแบบไหน (WFA 100% / Hybrid / เข้า Office) เพราะอะไร",
+                            38 => "เมื่อทำงานกับทีม คุณจะรู้สึกสนุกที่จะทำหน้าที่อะไรมากที่สุด",
                             39 => "คุณทำอย่างไรเมื่อต้องตัดสินใจในเรื่องสำคัญ",
-                            40 => "อยากได้หัวหน้าที่มีความเชื่อแบบไหน",
+                            40 => "ถ้าเลือกได้ คุณอยากได้หัวหน้าที่มีความเชื่อแบบไหน",
                             41 => "คาดหวังอะไรจากการทำงานที่นี่"
                         ];
                         
                         foreach ($mindsetCols as $idx => $title): 
-                            if (!empty($data[$idx])):
+                            $val = trim($data[$idx] ?? '');
+                            if ($val !== ''):
                         ?>
                             <div class="info-group">
                                 <div class="info-label"><?php echo htmlspecialchars($title); ?></div>
-                                <div class="info-value"><?php echo nl2br(htmlspecialchars($data[$idx])); ?></div>
+                                <div class="info-value"><?php echo nl2br(htmlspecialchars($val)); ?></div>
                             </div>
                         <?php 
                             endif;
@@ -270,29 +286,32 @@ if ($details === false) {
                     </div>
                 </div>
             </div>
-            
-            <!-- Raw Dump Section -->
-            <div class="section-card" style="margin-top: 2rem;">
-                <details>
-                    <summary style="cursor: pointer; color: var(--primary-color); font-weight: 600;">Show All Raw Data (Advanced)</summary>
-                    <div style="margin-top: 1rem;">
-                        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-                            <?php 
-                            $maxCols = max(count($headers), count($data));
-                            for ($i = 0; $i < $maxCols; $i++): 
-                                $headerName = isset($headers[$i]) && trim($headers[$i]) !== '' ? $headers[$i] : "Column " . ($i + 1);
-                                $value = $data[$i] ?? '';
-                                if (trim($value) === '') continue;
-                            ?>
-                                <tr style="border-bottom: 1px solid #eee;">
-                                    <td style="padding: 8px; width: 40%; font-weight: 500; color: #555;"><?php echo htmlspecialchars($headerName); ?></td>
-                                    <td style="padding: 8px;"><?php echo nl2br(htmlspecialchars($value)); ?></td>
-                                </tr>
-                            <?php endfor; ?>
-                        </table>
-                    </div>
-                </details>
-            </div>
+
+            <!-- Fallback for any missed columns -->
+            <?php
+            $handledCols = array_merge(range(0,2), range(3,20), range(21, 29), array_keys($mindsetCols), [42, 43]);
+            $unhandledCols = [];
+            $maxCols = max(count($headers), count($data));
+            for ($i = 0; $i < $maxCols; $i++) {
+                if (!in_array($i, $handledCols) && trim($data[$i] ?? '') !== '') {
+                    $unhandledCols[$i] = [
+                        'header' => $headers[$i] ?? "Column " . ($i + 1),
+                        'val' => $data[$i]
+                    ];
+                }
+            }
+            if (count($unhandledCols) > 0):
+            ?>
+                <div class="section-card">
+                    <h3>ข้อมูลเพิ่มเติม (Additional Data)</h3>
+                    <?php foreach ($unhandledCols as $col): ?>
+                        <div class="info-group">
+                            <div class="info-label"><?php echo htmlspecialchars($col['header']); ?></div>
+                            <div class="info-value"><?php echo nl2br(htmlspecialchars($col['val'])); ?></div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
         <?php endif; ?>
     </div>
