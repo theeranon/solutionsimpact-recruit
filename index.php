@@ -40,12 +40,6 @@ if ($sheetData === false) {
     $headers = $sheetData['headers'];
     $candidates = $sheetData['data'];
 }
-
-// Ensure headers are clean
-$cleanHeaders = array_map(function($h, $i) {
-    return trim($h) !== '' ? trim($h) : "Column " . ($i + 1);
-}, $headers, array_keys($headers));
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,46 +51,57 @@ $cleanHeaders = array_map(function($h, $i) {
     
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     
     <!-- jQuery and DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     
     <style>
-        .dataTables_wrapper .dataTables_filter input {
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 10px;
+        .container {
+            max-width: 98%;
+            margin: 0 auto;
+            padding: 0 1rem;
         }
-        .dataTables_wrapper .dataTables_length select {
-            padding: 4px;
-            border-radius: 4px;
-        }
-        /* Custom Button Style */
-        div.dt-buttons { margin-bottom: 15px; }
-        .dt-button {
-            background: var(--primary-color) !important;
-            color: white !important;
-            border: none !important;
-            border-radius: 4px !important;
-            padding: 6px 12px !important;
-        }
-        .dt-button:hover { background: var(--primary-hover) !important; }
-        table.dataTable thead th { background-color: #f1f3f5; font-weight: 600; }
         
-        /* Ensure table is readable */
+        .table-responsive {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        /* Excel-like Table Styling */
+        table.dataTable {
+            border-collapse: collapse !important;
+            width: 100% !important;
+        }
+        table.dataTable thead th {
+            background-color: #f1f3f5;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            white-space: nowrap;
+        }
         table.dataTable tbody td {
-            vertical-align: top;
-            max-width: 300px;
+            border: 1px solid #dee2e6;
+            padding: 8px 10px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 250px; /* Prevent columns from getting too wide */
+            vertical-align: middle;
+            height: 40px; /* Lock row height */
+        }
+        table.dataTable tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -113,28 +118,37 @@ $cleanHeaders = array_map(function($h, $i) {
         <?php if ($error): ?>
             <div class="error"><?php echo $error; ?></div>
         <?php else: ?>
-            
-            <div class="table-responsive" style="background: var(--card-bg); padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <table id="recruitTable" class="display responsive nowrap" style="width:100%">
+            <div class="table-responsive">
+                <table id="recruitTable" class="display nowrap">
                     <thead>
                         <tr>
-                            <th>Action</th>
-                            <?php foreach ($cleanHeaders as $colIndex => $th): ?>
-                                <th><?php echo htmlspecialchars($th); ?></th>
-                            <?php endforeach; ?>
+                            <th style="width: 80px;">Action</th>
+                            <th>Submitted at</th>
+                            <th>ชื่อ-นามสกุล</th>
+                            <th>ชื่อเล่น</th>
+                            <th>Email</th>
+                            <th>เบอร์โทร</th>
+                            <th>วุฒิการศึกษา</th>
+                            <th>เงินเดือนที่คาดหวัง</th>
+                            <th>เงินเดือนรับได้ต่ำสุด</th>
+                            <th>เป้าหมายใน 3 ปี</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($candidates as $row): ?>
                             <tr>
                                 <td>
-                                    <a href="details.php?id=<?php echo $row['original_index']; ?>" class="action-link" style="background: var(--primary-color); color: white; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 0.9rem;">View</a>
+                                    <a href="details.php?id=<?php echo $row['original_index']; ?>" class="action-link" style="background: var(--primary-color); color: white; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 0.85rem; display: inline-block; text-align: center; width: 100%;">View</a>
                                 </td>
-                                <?php foreach ($cleanHeaders as $colIndex => $th): ?>
-                                    <td title="<?php echo htmlspecialchars($row[$colIndex] ?? ''); ?>">
-                                        <?php echo htmlspecialchars($row[$colIndex] ?? ''); ?>
-                                    </td>
-                                <?php endforeach; ?>
+                                <td><?php echo htmlspecialchars($row[2] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($row[23] ?? '-'); ?></td>
+                                <td><?php echo htmlspecialchars($row[22] ?? '-'); ?></td>
+                                <td><?php echo htmlspecialchars($row[25] ?? '-'); ?></td>
+                                <td><?php echo htmlspecialchars($row[24] ?? '-'); ?></td>
+                                <td><?php echo htmlspecialchars($row[27] ?? '-'); ?></td>
+                                <td><?php echo htmlspecialchars($row[42] ?? '-'); ?></td>
+                                <td><?php echo htmlspecialchars($row[43] ?? '-'); ?></td>
+                                <td title="<?php echo htmlspecialchars($row[31] ?? ''); ?>"><?php echo htmlspecialchars($row[31] ?? '-'); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -143,37 +157,16 @@ $cleanHeaders = array_map(function($h, $i) {
             
             <script>
             $(document).ready(function() {
-                var table = $('#recruitTable').DataTable({
-                    dom: 'Bfrtip',
-                    responsive: false, // Turn off responsive collapsing so scrollX works better for many columns
-                    scrollX: true,
+                $('#recruitTable').DataTable({
+                    scrollX: true, // Allow horizontal scroll if needed
                     pageLength: 25,
-                    order: [[3, 'desc']], // Column 3 is 'Submitted at' (Index 2 in CSV + 1 for Action col)
-                    buttons: [
-                        {
-                            extend: 'colvis',
-                            text: 'Columns 👁️',
-                            className: 'btn-colvis'
-                        }
-                    ],
-                    columnDefs: [
-                        { targets: 0, orderable: false }, // Action
-                        // Hide most columns by default, show only essential ones
-                        // Col 0: Action, Col 1: Submission ID, Col 2: Respondent ID, Col 3: Submitted at, Col 4: ตำแหน่ง..., Col 23: ชื่อเล่น, Col 24: ชื่อ-นามสกุล, Col 25: เบอร์โทร, Col 26: Email
-                        // Let's set targets that we WANT visible, and hide the rest
-                        {
-                            targets: '_all',
-                            visible: false
-                        },
-                        {
-                            targets: [0, 3, 23, 24, 25, 26, 28, 29, 32, 42, 43], // Based on user's header structure (adding 1 because of Action column at index 0)
-                            // 0=Action, 3=Submitted at, 23=ชื่อเล่น, 24=ชื่อ-นามสกุล, 25=เบอร์โทร, 26=Email, 28=วุฒิการศึกษา, 32=เป้าหมาย 3 ปี, 42=คาดหวัง, 43=เงินเดือนที่รับได้
-                            visible: true
-                        }
-                    ],
+                    order: [[1, 'desc']], // Sort by Submitted at (Column index 1)
                     language: {
-                        search: "Search all columns:",
-                    }
+                        search: "ค้นหาข้อมูลทั้งหมด:",
+                    },
+                    columnDefs: [
+                        { targets: 0, orderable: false } // Disable sorting on Action column
+                    ]
                 });
             });
             </script>
