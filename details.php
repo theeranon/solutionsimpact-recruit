@@ -129,18 +129,18 @@ $questions = [
 
             <div class="row g-3">
                 
-                <!-- Left Column -->
-                <div class="col-lg-6">
+                <!-- Left Column (30%) -->
+                <div class="col-lg-4">
                     
                     <!-- Card 1: ข้อมูลส่วนตัว & สมัครงาน -->
                     <div class="card mb-3 shadow-sm border-0">
                         <div class="card-header bg-dark text-white rounded-top border-0">ข้อมูลส่วนตัว & สมัครงาน</div>
                         <div class="card-body bg-white rounded-bottom">
                             <div class="row">
-                                <div class="col-12 col-sm-6"><div class="label">เบอร์โทร</div><div class="val"><?php echo htmlspecialchars($data[24] ?? '-'); ?></div></div>
-                                <div class="col-12 col-sm-6"><div class="label">อีเมล</div><div class="val text-truncate" title="<?php echo htmlspecialchars($data[25] ?? ''); ?>"><?php echo htmlspecialchars($data[25] ?? '-'); ?></div></div>
-                                <div class="col-12 col-sm-6"><div class="label">วันเกิด</div><div class="val"><?php echo htmlspecialchars($data[26] ?? '-'); ?></div></div>
-                                <div class="col-12 col-sm-6"><div class="label">วุฒิ</div><div class="val text-truncate"><?php echo htmlspecialchars($data[27] ?? '-'); ?></div></div>
+                                <div class="col-12"><div class="label">เบอร์โทร</div><div class="val"><?php echo htmlspecialchars($data[24] ?? '-'); ?></div></div>
+                                <div class="col-12"><div class="label">อีเมล</div><div class="val text-truncate" title="<?php echo htmlspecialchars($data[25] ?? ''); ?>"><?php echo htmlspecialchars($data[25] ?? '-'); ?></div></div>
+                                <div class="col-12"><div class="label">วันเกิด</div><div class="val"><?php echo htmlspecialchars($data[26] ?? '-'); ?></div></div>
+                                <div class="col-12"><div class="label">วุฒิ</div><div class="val text-truncate"><?php echo htmlspecialchars($data[27] ?? '-'); ?></div></div>
                             </div>
                             <hr class="my-2 text-muted">
                             <div class="label">ตำแหน่งที่สนใจ</div>
@@ -213,30 +213,6 @@ $questions = [
                         </div>
                     </div>
 
-                </div>
-
-                <!-- Right Column -->
-                <div class="col-lg-6">
-                    
-                    <!-- Card 2: ทัศนคติและเป้าหมาย (Attitude & Mindset) -->
-                    <div class="card mb-3 shadow-sm border-0">
-                        <div class="card-header bg-dark text-white rounded-top border-0">ทัศนคติและเป้าหมาย (Attitude & Mindset)</div>
-                        <div class="card-body bg-white rounded-bottom p-3">
-                            <?php 
-                            $attitudeQs = [30, 31, 32];
-                            foreach ($questions as $q):
-                                if (!in_array($q['id'], $attitudeQs)) continue;
-                                $answer = trim($data[$q['id']] ?? '');
-                                if ($answer === '') continue;
-                            ?>
-                                <div class="q-box border-bottom pb-2 mb-2">
-                                    <div class="q-title text-dark"><?php echo htmlspecialchars($q['title']); ?></div>
-                                    <div class="text-a border-0 p-0 mb-0"><?php echo htmlspecialchars($answer); ?></div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-
                     <!-- Card 4: Talent Profile -->
                     <div class="card mb-3 shadow-sm border-0">
                         <div class="card-header bg-dark text-white rounded-top border-0">Talent Profile</div>
@@ -263,6 +239,30 @@ $questions = [
                                         echo "<div class='choice-item selected'><span class='alpha'>*</span> <span>".htmlspecialchars($answer)."</span></div>";
                                     }
                                     ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column (70%) -->
+                <div class="col-lg-8">
+                    
+                    <!-- Card 2: ทัศนคติและเป้าหมาย (Attitude & Mindset) -->
+                    <div class="card mb-3 shadow-sm border-0 h-100">
+                        <div class="card-header bg-dark text-white rounded-top border-0">ทัศนคติและเป้าหมาย (Attitude & Mindset)</div>
+                        <div class="card-body bg-white rounded-bottom p-4">
+                            <?php 
+                            $attitudeQs = [30, 31, 32];
+                            foreach ($questions as $q):
+                                if (!in_array($q['id'], $attitudeQs)) continue;
+                                $answer = trim($data[$q['id']] ?? '');
+                                if ($answer === '') continue;
+                            ?>
+                                <div class="q-box border-bottom pb-4 mb-4">
+                                    <div class="q-title text-dark fs-5 mb-3"><?php echo htmlspecialchars($q['title']); ?></div>
+                                    <div class="text-a border-0 p-3 mb-0 fs-6 bg-light text-dark" style="border-radius: 8px;"><?php echo htmlspecialchars($answer); ?></div>
                                 </div>
                             <?php endforeach; ?>
                         </div>
