@@ -85,45 +85,79 @@ if ($details === false) {
             color: #333;
         }
         .navbar-brand {
-            font-weight: 600;
+            font-weight: 700;
             color: #0d6efd !important;
+            letter-spacing: -0.5px;
         }
         .info-label {
             font-size: 0.85rem;
-            color: #6c757d;
+            color: #8c98a4;
             font-weight: 600;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.3rem;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .info-value {
-            font-size: 1rem;
-            color: #212529;
-            margin-bottom: 1.25rem;
+            font-size: 1.05rem;
+            color: #1e2022;
+            margin-bottom: 1.5rem;
             line-height: 1.6;
-            white-space: pre-wrap;
         }
         .card-header {
             background-color: #fff;
-            border-bottom: 2px solid #f0f2f5;
-            font-weight: 600;
-            font-size: 1.1rem;
-            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #e7eaf3;
+            font-weight: 700;
+            font-size: 1.15rem;
+            padding: 1.25rem 1.5rem;
+            color: #1e2022;
         }
         .card {
-            border: none;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-            margin-bottom: 1.5rem;
-            border-radius: 8px;
+            border: 1px solid #e7eaf3;
+            box-shadow: 0 0.5rem 1.2rem rgba(189,197,209,.2);
+            margin-bottom: 2rem;
+            border-radius: 0.75rem;
         }
         .badge-position {
-            background-color: #e9ecef;
-            color: #495057;
-            font-weight: 500;
-            font-size: 0.9rem;
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
-            margin: 0.2rem;
+            background-color: #e1f0ff;
+            color: #0d6efd;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.5rem 0.85rem;
+            border-radius: 8px;
+            margin: 0.25rem;
             display: inline-block;
+            border: 1px solid #b6d4fe;
+        }
+        .qa-block {
+            margin-bottom: 2rem;
+        }
+        .qa-question {
+            font-weight: 700;
+            color: #0d6efd;
+            font-size: 1.05rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+        }
+        .qa-question::before {
+            content: "Q:";
+            background: #0d6efd;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+        .qa-answer {
+            background-color: #f8fafd;
+            border-left: 4px solid #0d6efd;
+            padding: 1.25rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            font-size: 1.05rem;
+            color: #3b434f;
+            line-height: 1.7;
+            white-space: pre-wrap;
         }
     </style>
 </head>
@@ -144,35 +178,35 @@ if ($details === false) {
             <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
         <?php else: ?>
             
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-4 rounded shadow-sm border">
                 <div>
-                    <h2 class="fw-bold mb-1"><?php echo htmlspecialchars($name); ?></h2>
-                    <p class="text-muted mb-0">Submitted at: <?php echo htmlspecialchars($data[2] ?? '-'); ?></p>
+                    <h2 class="fw-bold mb-1 text-primary"><?php echo htmlspecialchars($name); ?></h2>
+                    <p class="text-muted mb-0" style="font-size: 0.95rem;">Submitted at: <span class="text-dark fw-medium"><?php echo htmlspecialchars($data[2] ?? '-'); ?></span></p>
                 </div>
-                <div>
+                <div class="d-flex gap-2">
                     <?php if(!empty($data[28])): ?>
-                        <a href="<?php echo htmlspecialchars($data[28]); ?>" target="_blank" class="btn btn-primary">View Resume/File</a>
+                        <a href="<?php echo htmlspecialchars($data[28]); ?>" target="_blank" class="btn btn-primary px-4 fw-medium shadow-sm">📄 View Resume</a>
                     <?php endif; ?>
                     <?php if(!empty($data[29])): ?>
-                        <a href="<?php echo htmlspecialchars($data[29]); ?>" target="_blank" class="btn btn-success">View Portfolio Link</a>
+                        <a href="<?php echo htmlspecialchars($data[29]); ?>" target="_blank" class="btn btn-dark px-4 fw-medium shadow-sm">🔗 View Portfolio</a>
                     <?php endif; ?>
                 </div>
             </div>
 
             <div class="row">
                 <!-- Left Column -->
-                <div class="col-lg-5">
+                <div class="col-lg-4">
                     
                     <div class="card">
                         <div class="card-header">
                             ข้อมูลส่วนตัว (Personal Info)
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-4">
                             <div class="info-label">เบอร์โทรศัพท์</div>
-                            <div class="info-value"><?php echo htmlspecialchars($data[24] ?? '-'); ?></div>
+                            <div class="info-value fw-bold text-primary"><a href="tel:<?php echo htmlspecialchars($data[24] ?? ''); ?>" class="text-decoration-none"><?php echo htmlspecialchars($data[24] ?? '-'); ?></a></div>
                             
                             <div class="info-label">อีเมล</div>
-                            <div class="info-value"><?php echo htmlspecialchars($data[25] ?? '-'); ?></div>
+                            <div class="info-value"><a href="mailto:<?php echo htmlspecialchars($data[25] ?? ''); ?>" class="text-decoration-none text-dark"><?php echo htmlspecialchars($data[25] ?? '-'); ?></a></div>
                             
                             <div class="info-label">วันเดือนปีเกิด</div>
                             <div class="info-value"><?php echo htmlspecialchars($data[26] ?? '-'); ?></div>
@@ -186,9 +220,9 @@ if ($details === false) {
                         <div class="card-header">
                             การสมัครงาน (Job Application)
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-4">
                             <div class="info-label">ตำแหน่งที่สนใจ</div>
-                            <div class="info-value">
+                            <div class="mb-4 mt-2">
                                 <?php 
                                 $hasPosition = false;
                                 for ($i = 3; $i <= 20; $i++) {
@@ -196,9 +230,16 @@ if ($details === false) {
                                     if ($val === 'TRUE' || ($val !== '' && $val !== 'FALSE')) {
                                         $posName = $headers[$i] ?? "Position $i";
                                         $posName = str_replace('ตำแหน่งที่สนใจ (สามารถสนใจหลายตำแหน่งได้) (', '', $posName);
+                                        $posName = str_replace('ตำแหน่งที่สนใจ (สามารถสนใจหลายตำแหน่งได้)', '', $posName);
                                         $posName = str_replace(')', '', $posName);
-                                        echo '<span class="badge-position">' . htmlspecialchars(trim($posName)) . '</span>';
-                                        $hasPosition = true;
+                                        $posName = trim($posName);
+                                        if ($posName === '') {
+                                            $posName = $val; // fallback to the value itself if header was just the root question
+                                        }
+                                        if ($posName !== 'TRUE') {
+                                            echo '<span class="badge-position">' . htmlspecialchars($posName) . '</span>';
+                                            $hasPosition = true;
+                                        }
                                     }
                                 }
                                 if (!$hasPosition) {
@@ -208,24 +249,25 @@ if ($details === false) {
                             </div>
                             
                             <div class="info-label">ทำไมถึงสนใจตำแหน่งที่เลือก</div>
-                            <div class="info-value"><?php echo htmlspecialchars($data[21] ?? '-'); ?></div>
+                            <div class="info-value bg-light p-3 rounded" style="font-size: 0.95rem; white-space: pre-wrap;"><?php echo htmlspecialchars($data[21] ?? '-'); ?></div>
                             
                             <div class="info-label">เงินเดือนที่คาดหวัง</div>
-                            <div class="info-value text-primary fw-bold"><?php echo htmlspecialchars($data[42] ?? '-'); ?></div>
+                            <div class="info-value text-success fw-bold fs-5"><?php echo htmlspecialchars($data[42] ?? '-'); ?></div>
                             
                             <div class="info-label">เงินเดือนเริ่มต้นที่รับได้</div>
-                            <div class="info-value text-danger fw-bold mb-0"><?php echo htmlspecialchars($data[43] ?? '-'); ?></div>
+                            <div class="info-value text-danger fw-bold fs-5 mb-0"><?php echo htmlspecialchars($data[43] ?? '-'); ?></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right Column -->
-                <div class="col-lg-7">
+                <div class="col-lg-8">
                     <div class="card">
-                        <div class="card-header">
-                            ทัศนคติและเป้าหมาย (Attitude & Mindset)
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>ทัศนคติและเป้าหมาย (Attitude & Mindset)</span>
+                            <span class="badge bg-primary rounded-pill px-3 py-2">Interview Q&A</span>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-4 p-md-5">
                             <?php 
                             $mindsetCols = [
                                 30 => "คุณคิดว่าคุณเก่งอะไร หรือ ภูมิใจอะไร 3 เรื่อง เล่าเหตุการณ์ให้ฟังหน่อย",
@@ -242,19 +284,16 @@ if ($details === false) {
                                 41 => "คาดหวังอะไรจากการทำงานที่นี่"
                             ];
                             
-                            $lastIdx = count($mindsetCols) - 1;
-                            $count = 0;
                             foreach ($mindsetCols as $idx => $title): 
                                 $val = trim($data[$idx] ?? '');
                                 if ($val !== ''):
-                                    $isLast = ($count === $lastIdx);
                             ?>
-                                <div class="info-label"><?php echo htmlspecialchars($title); ?></div>
-                                <div class="info-value <?php echo $isLast ? 'mb-0' : ''; ?>"><?php echo htmlspecialchars($val); ?></div>
-                                <?php if(!$isLast): ?><hr style="border-top: 1px dashed #dee2e6; opacity: 0.5; margin-bottom: 1.25rem;"><?php endif; ?>
+                                <div class="qa-block">
+                                    <div class="qa-question"><?php echo htmlspecialchars($title); ?></div>
+                                    <div class="qa-answer"><?php echo htmlspecialchars($val); ?></div>
+                                </div>
                             <?php 
                                 endif;
-                                $count++;
                             endforeach; 
                             ?>
                         </div>
@@ -279,11 +318,12 @@ if ($details === false) {
                             <div class="card-header text-muted">
                                 ข้อมูลเพิ่มเติม (Additional Data)
                             </div>
-                            <div class="card-body">
+                            <div class="card-body p-4">
                                 <?php foreach ($unhandledCols as $col): ?>
-                                    <div class="info-label"><?php echo htmlspecialchars($col['header']); ?></div>
-                                    <div class="info-value"><?php echo htmlspecialchars($col['val']); ?></div>
-                                    <hr style="border-top: 1px dashed #dee2e6; opacity: 0.5;">
+                                    <div class="qa-block">
+                                        <div class="qa-question text-secondary"><?php echo htmlspecialchars($col['header']); ?></div>
+                                        <div class="qa-answer border-secondary text-muted"><?php echo htmlspecialchars($col['val']); ?></div>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         </div>
