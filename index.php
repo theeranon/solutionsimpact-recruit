@@ -83,7 +83,7 @@ if ($sheetData === false) {
     <nav class="navbar">
         <h1>SolutionsIMPACT Recruit</h1>
         <div class="nav-links">
-            <span>Welcome, <?php echo htmlspecialchars(APP_USERNAME); ?></span>
+            <span>Welcome, <?php echo htmlspecialchars($_SESSION['username'] ?? 'User'); ?></span>
             <a href="logout.php">Logout</a>
         </div>
     </nav>

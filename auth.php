@@ -11,12 +11,20 @@ function isAuthenticated() {
     
     // Check cookie (Remember Forever)
     if (isset($_COOKIE['si_recruit_auth'])) {
-        $cookie_val = $_COOKIE['si_recruit_auth'];
-        $expected_val = hash('sha256', APP_USERNAME . SECRET_KEY);
-        
-        if (hash_equals($expected_val, $cookie_val)) {
-            $_SESSION['logged_in'] = true;
-            return true;
+        $cookie_parts = explode('|', $_COOKIE['si_recruit_auth']);
+        if (count($cookie_parts) === 2) {
+            $username = $cookie_parts[0];
+            $cookie_hash = $cookie_parts[1];
+            
+            $users = APP_USERS;
+            if (isset($users[$username])) {
+                $expected_val = hash('sha256', $username . SECRET_KEY);
+                if (hash_equals($expected_val, $cookie_hash)) {
+                    $_SESSION['logged_in'] = true;
+                    $_SESSION['username'] = $username;
+                    return true;
+                }
+            }
         }
     }
     

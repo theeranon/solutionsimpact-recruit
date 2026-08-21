@@ -12,11 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
     
-    if ($username === APP_USERNAME && $password === APP_PASSWORD) {
+    $users = APP_USERS;
+    
+    if (isset($users[$username]) && $users[$username] === $password) {
         $_SESSION['logged_in'] = true;
+        $_SESSION['username'] = $username;
         
-        // Set cookie forever (10 years)
-        $cookie_val = hash('sha256', APP_USERNAME . SECRET_KEY);
+        // Set cookie forever (10 years), including username in cookie format
+        $cookie_val = $username . '|' . hash('sha256', $username . SECRET_KEY);
         setcookie('si_recruit_auth', $cookie_val, time() + (86400 * 365 * 10), "/");
         
         header("Location: index.php");
