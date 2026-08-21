@@ -1,5 +1,6 @@
 <?php
 require_once 'auth.php';
+require_once 'helper.php';
 requireLogin();
 
 $id = $_GET['id'] ?? null;
@@ -10,14 +11,8 @@ if ($id === null || !is_numeric($id)) {
 
 function getCandidateDetails($rowIndex) {
     $url = GSHEET_CSV_URL;
-    $context = stream_context_create([
-        "http" => [
-            "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-        ]
-    ]);
-    
-    $csvContent = @file_get_contents($url, false, $context);
-    if ($csvContent === false) {
+    $csvContent = fetchCsvUrl($url);
+    if ($csvContent === false || $csvContent === 'auth_required') {
         return false;
     }
     

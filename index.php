@@ -1,5 +1,6 @@
 <?php
 require_once 'auth.php';
+require_once 'helper.php';
 requireLogin();
 
 // Function to fetch and parse CSV
@@ -7,16 +8,13 @@ function getSheetData() {
     $url = GSHEET_CSV_URL;
     $data = [];
     
-    // Attempt to fetch the CSV content
-    $context = stream_context_create([
-        "http" => [
-            "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-        ]
-    ]);
-    
-    $csvContent = @file_get_contents($url, false, $context);
+    $csvContent = fetchCsvUrl($url);
     if ($csvContent === false) {
         return false;
+    }
+    
+    if ($csvContent === 'auth_required') {
+        return 'auth_required';
     }
     
     $lines = explode("\n", $csvContent);
@@ -44,7 +42,9 @@ $headers = [];
 $candidates = [];
 
 if ($sheetData === false) {
-    $error = "Failed to load data. Ensure the Google Sheet is published to the web as a CSV.";
+    $error = "Failed to load data. The Google Sheet URL might be incorrect or unreachable.";
+} elseif ($sheetData === 'auth_required') {
+    $error = "Google Sheet is NOT public! <br><br>Please go to your Google Sheet -> Share -> change to 'Anyone with the link' can view.<br>Alternatively, use File -> Share -> Publish to web as CSV.";
 } else {
     $headers = $sheetData['headers'];
     $candidates = $sheetData['data'];
@@ -90,7 +90,7 @@ if ($sheetData === false) {
     
     <div class="container">
         <?php if ($error): ?>
-            <div class="error"><?php echo htmlspecialchars($error); ?></div>
+            <div class="error"><?php echo $error; ?></div>
         <?php else: ?>
             <div class="search-bar">
                 <form method="GET" action="" style="display: flex; width: 100%; gap: 1rem;">
