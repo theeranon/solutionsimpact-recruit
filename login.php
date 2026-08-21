@@ -13,13 +13,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     
     $users = APP_USERS;
+    $username_lower = strtolower($username);
     
-    if (isset($users[$username]) && $users[$username] === $password) {
+    // Create a lowercase mapped array
+    $users_lower = [];
+    foreach ($users as $k => $v) {
+        $users_lower[strtolower($k)] = [
+            'original_username' => $k,
+            'password' => $v
+        ];
+    }
+    
+    if (isset($users_lower[$username_lower]) && $users_lower[$username_lower]['password'] === $password) {
+        $real_username = $users_lower[$username_lower]['original_username'];
         $_SESSION['logged_in'] = true;
-        $_SESSION['username'] = $username;
+        $_SESSION['username'] = $real_username;
         
-        // Set cookie forever (10 years), including username in cookie format
-        $cookie_val = $username . '|' . hash('sha256', $username . SECRET_KEY);
+        $cookie_val = $real_username . '|' . hash('sha256', $real_username . SECRET_KEY);
         setcookie('si_recruit_auth', $cookie_val, time() + (86400 * 365 * 10), "/");
         
         header("Location: index.php");

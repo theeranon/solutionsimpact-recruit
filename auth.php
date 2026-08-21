@@ -17,11 +17,18 @@ function isAuthenticated() {
             $cookie_hash = $cookie_parts[1];
             
             $users = APP_USERS;
-            if (isset($users[$username])) {
-                $expected_val = hash('sha256', $username . SECRET_KEY);
+            $username_lower = strtolower($username);
+            $users_lower = [];
+            foreach ($users as $k => $v) {
+                $users_lower[strtolower($k)] = $k;
+            }
+            
+            if (isset($users_lower[$username_lower])) {
+                $real_username = $users_lower[$username_lower];
+                $expected_val = hash('sha256', $real_username . SECRET_KEY);
                 if (hash_equals($expected_val, $cookie_hash)) {
                     $_SESSION['logged_in'] = true;
-                    $_SESSION['username'] = $username;
+                    $_SESSION['username'] = $real_username;
                     return true;
                 }
             }
