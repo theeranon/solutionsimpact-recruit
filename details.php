@@ -128,9 +128,9 @@ $questions = [
             </div>
 
             <div class="row g-3">
-                <!-- Left: Info -->
+                <!-- Column 1: Info and Text Questions -->
                 <div class="col-lg-4">
-                    <div class="card h-100">
+                    <div class="card mb-3">
                         <div class="card-header">ข้อมูลส่วนตัว & สมัครงาน</div>
                         <div class="card-body">
                             <div class="row">
@@ -164,38 +164,91 @@ $questions = [
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Right: All Mindset Questions Flowing -->
-                <div class="col-lg-8">
+                    
                     <div class="card h-100">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <span>ทัศนคติและเป้าหมาย (Attitude & Mindset)</span>
-                        </div>
-                        <div class="card-body p-3" style="max-height: 85vh; overflow-y: auto;">
+                        <div class="card-header">คำถามปลายเปิด (Text)</div>
+                        <div class="card-body p-3">
                             <?php 
                             foreach ($questions as $q):
+                                if ($q['type'] !== 'text') continue;
                                 $answer = trim($data[$q['id']] ?? '');
                                 if ($answer === '') continue;
                             ?>
-                                <div class="q-box border-bottom pb-3 mb-3">
+                                <div class="q-box border-bottom pb-2 mb-2">
                                     <div class="q-title"><?php echo htmlspecialchars($q['title']); ?></div>
-                                    <?php if ($q['type'] === 'choice'): 
-                                        $alphas = ['A', 'B', 'C', 'D'];
-                                        $matched = false;
-                                        foreach ($q['choices'] as $cIdx => $choiceText) {
-                                            $isSelected = (strpos($answer, $choiceText) !== false || strpos($choiceText, $answer) !== false);
-                                            if ($isSelected) $matched = true;
-                                            $cssClass = $isSelected ? 'selected' : '';
-                                            echo "<div class='choice-item $cssClass'><span class='alpha'>".$alphas[$cIdx]."</span> <span>".htmlspecialchars($choiceText)."</span></div>";
-                                        }
-                                        if (!$matched && $answer !== '') {
-                                            echo "<div class='choice-item selected'><span class='alpha'>*</span> <span>".htmlspecialchars($answer)."</span></div>";
-                                        }
+                                    <div class="text-a border-0 p-0 mb-0"><?php echo htmlspecialchars($answer); ?></div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Multiple Choice (Part 1) -->
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-header">ทัศนคติ (Choice 1/2)</div>
+                        <div class="card-body p-3">
+                            <?php 
+                            $choiceCount = 0;
+                            foreach ($questions as $q):
+                                if ($q['type'] !== 'choice') continue;
+                                $choiceCount++;
+                                if ($choiceCount > 4) continue; // Show first 4 in this column
+                                
+                                $answer = trim($data[$q['id']] ?? '');
+                                if ($answer === '') continue;
+                            ?>
+                                <div class="q-box border-bottom pb-2 mb-2">
+                                    <div class="q-title"><?php echo htmlspecialchars($q['title']); ?></div>
+                                    <?php 
+                                    $alphas = ['A', 'B', 'C', 'D'];
+                                    $matched = false;
+                                    foreach ($q['choices'] as $cIdx => $choiceText) {
+                                        $isSelected = (strpos($answer, $choiceText) !== false || strpos($choiceText, $answer) !== false);
+                                        if ($isSelected) $matched = true;
+                                        $cssClass = $isSelected ? 'selected' : '';
+                                        echo "<div class='choice-item $cssClass'><span class='alpha'>".$alphas[$cIdx]."</span> <span>".htmlspecialchars($choiceText)."</span></div>";
+                                    }
+                                    if (!$matched && $answer !== '') {
+                                        echo "<div class='choice-item selected'><span class='alpha'>*</span> <span>".htmlspecialchars($answer)."</span></div>";
+                                    }
                                     ?>
-                                    <?php else: ?>
-                                        <div class="text-a border-0 p-0 mb-0"><?php echo htmlspecialchars($answer); ?></div>
-                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3: Multiple Choice (Part 2) -->
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-header">ทัศนคติ (Choice 2/2)</div>
+                        <div class="card-body p-3">
+                            <?php 
+                            $choiceCount = 0;
+                            foreach ($questions as $q):
+                                if ($q['type'] !== 'choice') continue;
+                                $choiceCount++;
+                                if ($choiceCount <= 4) continue; // Skip first 4
+                                
+                                $answer = trim($data[$q['id']] ?? '');
+                                if ($answer === '') continue;
+                            ?>
+                                <div class="q-box border-bottom pb-2 mb-2">
+                                    <div class="q-title"><?php echo htmlspecialchars($q['title']); ?></div>
+                                    <?php 
+                                    $alphas = ['A', 'B', 'C', 'D'];
+                                    $matched = false;
+                                    foreach ($q['choices'] as $cIdx => $choiceText) {
+                                        $isSelected = (strpos($answer, $choiceText) !== false || strpos($choiceText, $answer) !== false);
+                                        if ($isSelected) $matched = true;
+                                        $cssClass = $isSelected ? 'selected' : '';
+                                        echo "<div class='choice-item $cssClass'><span class='alpha'>".$alphas[$cIdx]."</span> <span>".htmlspecialchars($choiceText)."</span></div>";
+                                    }
+                                    if (!$matched && $answer !== '') {
+                                        echo "<div class='choice-item selected'><span class='alpha'>*</span> <span>".htmlspecialchars($answer)."</span></div>";
+                                    }
+                                    ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>
