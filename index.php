@@ -9,20 +9,28 @@ function getSheetData() {
     if ($csvContent === false) return false;
     if ($csvContent === 'auth_required') return 'auth_required';
     
-    $lines = explode("\n", $csvContent);
+    $stream = fopen('php://memory', 'r+');
+    fwrite($stream, $csvContent);
+    rewind($stream);
+    
     $headers = [];
     $data = [];
+    $index = 0;
     
-    foreach ($lines as $index => $line) {
-        if (trim($line) === '') continue;
-        $row = str_getcsv($line);
+    while (($row = fgetcsv($stream)) !== false) {
+        // Skip empty rows
+        if (count($row) === 1 && $row[0] === null) continue;
+        
         if ($index === 0) {
             $headers = $row;
         } else {
             $row['original_index'] = $index;
             $data[] = $row;
         }
+        $index++;
     }
+    
+    fclose($stream);
     
     return ['headers' => $headers, 'data' => $data];
 }

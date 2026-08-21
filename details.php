@@ -16,15 +16,33 @@ function getCandidateDetails($rowIndex) {
         return false;
     }
     
-    $lines = explode("\n", $csvContent);
-    if (!isset($lines[0]) || !isset($lines[$rowIndex])) {
+    $stream = fopen('php://memory', 'r+');
+    fwrite($stream, $csvContent);
+    rewind($stream);
+    
+    $headers = [];
+    $targetData = null;
+    $currentIndex = 0;
+    
+    while (($row = fgetcsv($stream)) !== false) {
+        if (count($row) === 1 && $row[0] === null) continue;
+        
+        if ($currentIndex === 0) {
+            $headers = $row;
+        } elseif ($currentIndex == $rowIndex) {
+            $targetData = $row;
+            break; // Found our target row
+        }
+        $currentIndex++;
+    }
+    
+    fclose($stream);
+    
+    if ($targetData === null) {
         return null;
     }
     
-    $headers = str_getcsv($lines[0]);
-    $data = str_getcsv($lines[$rowIndex]);
-    
-    return ['headers' => $headers, 'data' => $data];
+    return ['headers' => $headers, 'data' => $targetData];
 }
 
 $details = getCandidateDetails($id);
