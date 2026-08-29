@@ -254,9 +254,18 @@ function getBaziChartData($dateStr) {
         ];
     }
     
+    $structLabels = [
+        "Companion\n({$elements[$dmElementIdx]})",
+        "Output\n({$elements[($dmElementIdx + 1) % 5]})",
+        "Wealth\n({$elements[($dmElementIdx + 2) % 5]})",
+        "Influence\n({$elements[($dmElementIdx + 3) % 5]})",
+        "Resource\n({$elements[($dmElementIdx + 4) % 5]})"
+    ];
+    
     return [
         'profiles' => $profPct,
         'structures' => $structPct,
+        'structLabels' => $structLabels,
         'favorable' => implode(', ', $fav),
         'unfavorable' => implode(', ', $unfav)
     ];

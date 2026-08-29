@@ -315,24 +315,57 @@ $questions = [
                                             <div><?php echo htmlspecialchars($baziStats['unfavorable']); ?></div>
                                         </div>
                                     </div>
-                                    <h6 class="fw-bold mb-2 text-dark" style="font-size: 0.8rem; text-align: center;">10 Profiles Proportions</h6>
-                                    <div>
-                                        <?php 
-                                        $colors = ['#6c757d', '#dc3545', '#198754', '#0d6efd', '#ffc107', '#0dcaf0', '#d63384', '#fd7e14', '#20c997', '#6610f2'];
-                                        $cIdx = 0;
-                                        foreach($baziStats['profiles'] as $pName => $pct): 
-                                            $color = $colors[$cIdx % count($colors)];
-                                            $cIdx++;
-                                        ?>
-                                        <div class="d-flex align-items-center mb-1" style="font-size: 0.7rem;">
-                                            <div style="width: 100px; text-align: right; padding-right: 6px; color: <?php echo $color; ?>;" class="text-truncate" title="<?php echo $pName; ?>"><?php echo $pName; ?></div>
-                                            <div class="flex-grow-1" style="height: 10px; background: #eee; border-radius: 2px; overflow: hidden;">
-                                                <div style="width: <?php echo $pct; ?>%; height: 100%; background: <?php echo $color; ?>;"></div>
-                                            </div>
-                                            <div style="width: 40px; text-align: right; padding-left: 6px; color: #666;"><?php echo $pct; ?>%</div>
-                                        </div>
-                                        <?php endforeach; ?>
+                                    <h6 class="fw-bold mb-2 text-dark" style="font-size: 0.8rem; text-align: center;">5 Structures</h6>
+                                    <div style="position: relative; width: 100%; height: 200px; display: flex; justify-content: center;">
+                                        <canvas id="baziRadar"></canvas>
                                     </div>
+                                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var ctx = document.getElementById('baziRadar').getContext('2d');
+                                            new Chart(ctx, {
+                                                type: 'radar',
+                                                data: {
+                                                    labels: <?php echo json_encode($baziStats['structLabels']); ?>,
+                                                    datasets: [{
+                                                        label: 'Proportion %',
+                                                        data: [
+                                                            <?php echo $baziStats['structures']['Companion']; ?>,
+                                                            <?php echo $baziStats['structures']['Output']; ?>,
+                                                            <?php echo $baziStats['structures']['Wealth']; ?>,
+                                                            <?php echo $baziStats['structures']['Influence']; ?>,
+                                                            <?php echo $baziStats['structures']['Resource']; ?>
+                                                        ],
+                                                        backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                                                        borderColor: 'rgba(13, 110, 253, 1)',
+                                                        pointBackgroundColor: 'rgba(13, 110, 253, 1)',
+                                                        borderWidth: 2,
+                                                        pointRadius: 3
+                                                    }]
+                                                },
+                                                options: {
+                                                    animation: false, // critical for print
+                                                    responsive: true,
+                                                    maintainAspectRatio: false,
+                                                    scales: {
+                                                        r: {
+                                                            beginAtZero: true,
+                                                            min: 0,
+                                                            max: 100,
+                                                            ticks: { display: false, stepSize: 25 },
+                                                            pointLabels: {
+                                                                font: { size: 9 },
+                                                                color: '#dc3545' // Matches the red font in the screenshot
+                                                            }
+                                                        }
+                                                    },
+                                                    plugins: {
+                                                        legend: { display: false }
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    </script>
                                 </div>
                                 <?php endif; ?>
                             </div>
