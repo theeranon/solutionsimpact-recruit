@@ -88,7 +88,7 @@ $questions = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Candidate Details</title>
+    <title><?php echo htmlspecialchars($id . " - " . ($data[23] ?? "") . (empty($data[22]) ? "" : " (".$data[22].")")); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -124,17 +124,26 @@ $questions = [
         .choice-item .alpha { width: 22px; font-weight: 700; flex-shrink: 0; }
         
         .text-a { background: #fff; border: 1px solid #dee2e6; padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.5; }
-        .print-card { page-break-inside: avoid; margin-bottom: 15px !important; }
+                .print-card { margin-bottom: 15px !important; page-break-inside: auto !important; }
         @media print {
-            body { font-size: 11pt !important; background: #fff !important; }
+            body { font-size: 10pt !important; background: #fff !important; }
             .container-fluid { padding: 0 !important; }
-            .card { box-shadow: none !important; border: 1px solid #ccc !important; }
-            .col-print-4, .col-print-3 { padding: 0 8px !important; }
-            .col-print-6 { flex: 0 0 50% !important; max-width: 50% !important; padding: 0 8px !important; }
-            .col-print-12 { flex: 0 0 100% !important; max-width: 100% !important; padding: 0 8px !important; }
-            .print-row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; width: 100% !important; page-break-inside: avoid; }
-            .q-box { margin-bottom: 0.75rem !important; }
-            .text-a { height: auto !important; max-height: none !important; overflow: visible !important; border: 1px solid #ddd !important; }
+            .card { box-shadow: none !important; border: 1px solid #ccc !important; page-break-inside: auto !important; }
+            .card-body { padding: 10px !important; }
+            
+            .col-print-3, .col-print-4, .col-print-6, .col-print-8, .col-print-12 { padding: 0 8px !important; }
+            
+            .print-row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; width: 100% !important; page-break-inside: auto !important; }
+            
+            .q-box { margin-bottom: 0.75rem !important; page-break-inside: avoid; }
+            .text-a { height: auto !important; max-height: none !important; overflow: visible !important; border: 1px solid #ddd !important; white-space: pre-wrap !important; word-wrap: break-word !important; }
+            
+            h4 { page-break-after: avoid; margin-bottom: 15px !important; }
+            
+            .attitude-col { display: block !important; width: 33.3333% !important; float: left !important; padding: 0 8px !important; }
+            .attitude-row { display: block !important; width: 100% !important; }
+            .attitude-row::after { content: ""; display: table; clear: both; }
+            
             @page { size: A4 landscape; margin: 10mm; }
         }
             .btn-james {
@@ -418,7 +427,7 @@ $questions = [
             <div class="card shadow-sm border-0 mb-3 print-card">
                 <div class="card-header bg-dark text-white rounded-top border-0">ทัศนคติและเป้าหมาย (Attitude & Mindset)</div>
                 <div class="card-body bg-white rounded-bottom p-4">
-                    <div class="row g-4 print-row">
+                    <div class="row g-4 attitude-row">
                         <?php 
                         $attitudeQs = [30, 31, 32];
                         foreach ($questions as $q):
@@ -426,7 +435,7 @@ $questions = [
                             $answer = trim($data[$q['id']] ?? '');
                             if ($answer === '') continue;
                         ?>
-                            <div class="col-md-4 col-print-4">
+                            <div class="col-md-4 attitude-col">
                                 <div class="q-title text-dark fw-bold mb-2" style="font-size: 0.9rem; min-height: 2.5rem;"><?php echo htmlspecialchars($q['title']); ?></div>
                                 <div class="text-a border-0 p-3 mb-0 bg-light text-dark" style="border-radius: 8px; font-size: 0.85rem; line-height: 1.6; white-space: pre-wrap; height: 100%;"><?php echo htmlspecialchars($answer); ?></div>
                             </div>
