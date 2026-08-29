@@ -137,6 +137,34 @@ $questions = [
             .text-a { height: auto !important; max-height: none !important; overflow: visible !important; border: 1px solid #ddd !important; }
             @page { size: A4 landscape; margin: 10mm; }
         }
+            .btn-james {
+            height: 32px;
+            padding: 0 16px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1px solid #ced4da;
+            background: #fff;
+            color: #495057;
+        }
+        .btn-james:hover { background: #f8f9fa; color: #212529; border-color: #adb5bd; }
+        .btn-james-primary {
+            background: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
+        }
+        .btn-james-primary:hover { background: #0b5ed7; border-color: #0a58ca; color: #fff; }
+        .btn-james-dark {
+            background: #212529;
+            border-color: #212529;
+            color: #fff;
+        }
+        .btn-james-dark:hover { background: #1c1f23; border-color: #1a1e21; color: #fff; }
     </style>
 </head>
 <body class="bg-light">
@@ -145,7 +173,7 @@ $questions = [
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <span class="fw-bold text-primary fs-5">SolutionsIMPACT</span>
             <div>
-                <a href="index.php" class="btn btn-sm btn-outline-secondary px-3">Back</a>
+                <a href="index.php" class="btn-james">Back</a>
             </div>
         </div>
     </div>
@@ -160,16 +188,16 @@ $questions = [
                     <h4 class="mb-1 text-truncate fw-bold"><?php echo htmlspecialchars($data[23] ?? 'Unknown Name'); ?> <?php if(!empty($data[22])) echo "(".htmlspecialchars($data[22]).")"; ?></h4>
                 </div>
                 <div class="d-flex gap-2 d-print-none">
-                    <?php if(!empty($data[28])): ?><a href="<?php echo htmlspecialchars(trim($data[28])); ?>" target="_blank" class="btn btn-sm btn-outline-primary">View Resume</a><?php endif; ?>
-                    <?php if(!empty($data[29])): ?><a href="<?php echo htmlspecialchars(trim($data[29])); ?>" target="_blank" class="btn btn-sm btn-outline-dark">View Portfolio</a><?php endif; ?>
-                    <button class="btn btn-primary btn-sm" onclick="window.print()">Print Report</button>
+                    <?php if(!empty($data[28])): ?><a href="<?php echo htmlspecialchars(trim($data[28])); ?>" target="_blank" class="btn-james">View Resume</a><?php endif; ?>
+                    <?php if(!empty($data[29])): ?><a href="<?php echo htmlspecialchars(trim($data[29])); ?>" target="_blank" class="btn-james">View Portfolio</a><?php endif; ?>
+                    <button class="btn-james btn-james-primary" onclick="window.print()">Print Report</button>
                 </div>
             </div>
 
             <!-- Row 1: 3 Columns -->
             <div class="row g-3 mb-3 print-row">
                 <!-- Col 1: ข้อมูลส่วนตัว & BaZi -->
-                <div class="col-lg-3 col-print-3" style="flex: 0 0 20%; max-width: 20%;">
+                <div class="col-lg-3 col-print-3" style="flex: 0 0 30%; max-width: 30%;">
                     <div class="card h-100 shadow-sm border-0 print-card">
                         <div class="card-header bg-dark text-white rounded-top border-0">ข้อมูลส่วนตัว & BaZi</div>
                         <div class="card-body bg-white rounded-bottom p-3">
@@ -229,7 +257,7 @@ $questions = [
                 </div>
 
                 <!-- Col 2: LeaderShift™ Level -->
-                <div class="col-lg-4 col-print-4" style="flex: 0 0 40%; max-width: 40%;">
+                <div class="col-lg-4 col-print-4" style="flex: 0 0 35%; max-width: 35%;">
                     <div class="card h-100 shadow-sm border-0 print-card">
                         <div class="card-header bg-dark text-white rounded-top border-0">LeaderShift™ Level</div>
                         <div class="card-body bg-white rounded-bottom p-3">
@@ -262,7 +290,7 @@ $questions = [
                 </div>
 
                 <!-- Col 3: Talent Profile -->
-                <div class="col-lg-4 col-print-4" style="flex: 0 0 40%; max-width: 40%;">
+                <div class="col-lg-4 col-print-4" style="flex: 0 0 35%; max-width: 35%;">
                     <div class="card h-100 shadow-sm border-0 print-card">
                         <div class="card-header bg-dark text-white rounded-top border-0">Talent Profile</div>
                         <div class="card-body bg-white rounded-bottom p-3">
