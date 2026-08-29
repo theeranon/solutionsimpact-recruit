@@ -302,6 +302,39 @@ $questions = [
                                         </tr>
                                     </tbody>
                                 </table>
+                                <?php $baziStats = getBaziChartData($data[26] ?? ''); ?>
+                                <?php if ($baziStats): ?>
+                                <div class="mt-3">
+                                    <div class="d-flex border rounded text-center mb-3" style="font-size: 0.75rem; overflow: hidden;">
+                                        <div class="w-50 p-2 bg-light border-end">
+                                            <div class="text-success fw-bold">ให้คุณ (Favorable)</div>
+                                            <div><?php echo htmlspecialchars($baziStats['favorable']); ?></div>
+                                        </div>
+                                        <div class="w-50 p-2 bg-light">
+                                            <div class="text-danger fw-bold">ให้โทษ (Unfavorable)</div>
+                                            <div><?php echo htmlspecialchars($baziStats['unfavorable']); ?></div>
+                                        </div>
+                                    </div>
+                                    <h6 class="fw-bold mb-2 text-dark" style="font-size: 0.8rem; text-align: center;">10 Profiles Proportions</h6>
+                                    <div>
+                                        <?php 
+                                        $colors = ['#6c757d', '#dc3545', '#198754', '#0d6efd', '#ffc107', '#0dcaf0', '#d63384', '#fd7e14', '#20c997', '#6610f2'];
+                                        $cIdx = 0;
+                                        foreach($baziStats['profiles'] as $pName => $pct): 
+                                            $color = $colors[$cIdx % count($colors)];
+                                            $cIdx++;
+                                        ?>
+                                        <div class="d-flex align-items-center mb-1" style="font-size: 0.7rem;">
+                                            <div style="width: 100px; text-align: right; padding-right: 6px; color: <?php echo $color; ?>;" class="text-truncate" title="<?php echo $pName; ?>"><?php echo $pName; ?></div>
+                                            <div class="flex-grow-1" style="height: 10px; background: #eee; border-radius: 2px; overflow: hidden;">
+                                                <div style="width: <?php echo $pct; ?>%; height: 100%; background: <?php echo $color; ?>;"></div>
+                                            </div>
+                                            <div style="width: 40px; text-align: right; padding-left: 6px; color: #666;"><?php echo $pct; ?>%</div>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
                             <?php endif; ?>
                         </div>
