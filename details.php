@@ -188,8 +188,6 @@ $questions = [
                     <h4 class="mb-1 text-truncate fw-bold"><?php echo htmlspecialchars($data[23] ?? 'Unknown Name'); ?> <?php if(!empty($data[22])) echo "(".htmlspecialchars($data[22]).")"; ?></h4>
                 </div>
                 <div class="d-flex gap-2 d-print-none">
-                    <?php if(!empty($data[28])): ?><a href="<?php echo htmlspecialchars(trim($data[28])); ?>" target="_blank" class="btn-james">View Resume</a><?php endif; ?>
-                    <?php if(!empty($data[29])): ?><a href="<?php echo htmlspecialchars(trim($data[29])); ?>" target="_blank" class="btn-james">View Portfolio</a><?php endif; ?>
                     <button class="btn-james btn-james-primary" onclick="window.print()">Print Report</button>
                 </div>
             </div>
@@ -208,6 +206,39 @@ $questions = [
                                 <div class="col-12"><div class="label">วุฒิ</div><div class="val text-truncate"><?php echo htmlspecialchars($data[27] ?? '-'); ?></div></div>
                             </div>
                             
+                            <?php 
+                            $attachments = [];
+                            if (!empty($data[28])) {
+                                preg_match_all('/https?:\/\/[^\s,]+/', $data[28], $matches);
+                                foreach ($matches[0] as $i => $url) {
+                                    $num = count($matches[0]) > 1 ? ' ' . ($i + 1) : '';
+                                    $attachments[] = ['name' => 'Resume / CV' . $num, 'url' => $url];
+                                }
+                            }
+                            if (!empty($data[29])) {
+                                preg_match_all('/https?:\/\/[^\s,]+/', $data[29], $matches);
+                                foreach ($matches[0] as $i => $url) {
+                                    $num = count($matches[0]) > 1 ? ' ' . ($i + 1) : '';
+                                    $attachments[] = ['name' => 'Portfolio' . $num, 'url' => $url];
+                                }
+                            }
+                            if (count($attachments) > 0): 
+                            ?>
+                            <div class="mt-3 pt-3 border-top d-print-none">
+                                <div class="label mb-2 text-dark">เอกสารแนบ (Attachments)</div>
+                                <div class="d-flex flex-column gap-2">
+                                    <?php foreach ($attachments as $att): ?>
+                                        <a href="<?php echo htmlspecialchars($att['url']); ?>" target="_blank" class="btn-james text-start" style="justify-content: flex-start; width: 100%;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                                            </svg>
+                                            <?php echo htmlspecialchars($att['name']); ?>
+                                        </a>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+
                             <?php 
                             $bazi = getFullBazi($data[26] ?? '');
                             if ($bazi): 
