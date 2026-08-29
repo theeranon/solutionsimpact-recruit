@@ -1,5 +1,6 @@
 <?php
 require_once 'auth.php';
+require_once 'helper.php';
 requireLogin();
 
 $id = $_GET['id'] ?? null;
