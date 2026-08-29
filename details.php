@@ -139,7 +139,16 @@ $questions = [
             .q-box { margin-bottom: 0.5rem !important; page-break-inside: avoid; }
             .text-a { height: auto !important; max-height: none !important; overflow: visible !important; border: 1px solid #ddd !important; white-space: pre-wrap !important; word-wrap: break-word !important; }
             
-            h4 { page-break-after: avoid; margin-bottom: 15px !important; }
+                        /* Compress the height of the options to fit on Page 1 */
+            .choice-item { 
+                padding: 1px 4px !important; 
+                margin-bottom: 1px !important; 
+                border-radius: 2px !important;
+            }
+            .card-body { padding: 4px 8px !important; }
+            .q-box { margin-bottom: 0.2rem !important; }
+            h4 { margin-bottom: 0 !important; }
+            h4 { page-break-after: avoid; margin-bottom: 5px !important; }
             
             .attitude-col { display: block !important; width: 33.3333% !important; float: left !important; padding: 0 8px !important; }
             .attitude-row { display: block !important; width: 100% !important; }
