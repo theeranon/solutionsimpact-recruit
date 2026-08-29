@@ -134,6 +134,7 @@ if ($sheetData === false) {
                             <th>Submitted at</th>
                             <th>ชื่อ-นามสกุล</th>
                             <th>ชื่อเล่น</th>
+                            <th>BaZi (ธาตุ/ปี)</th>
                             <th>Email</th>
                             <th>เบอร์โทร</th>
                             <th>วุฒิการศึกษา</th>
@@ -151,6 +152,7 @@ if ($sheetData === false) {
                                 <td><?php echo htmlspecialchars($row[2] ?? ''); ?></td>
                                 <td><?php echo htmlspecialchars($row[23] ?? '-'); ?></td>
                                 <td><?php echo htmlspecialchars($row[22] ?? '-'); ?></td>
+                                <td><span style="background: #eef2f5; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; color: #495057; border: 1px solid #dee2e6;"><?php echo htmlspecialchars(getBaziYearInfo($row[26] ?? '')); ?></span></td>
                                 <td><?php echo htmlspecialchars($row[25] ?? '-'); ?></td>
                                 <td><?php echo htmlspecialchars($row[24] ?? '-'); ?></td>
                                 <td><?php echo htmlspecialchars($row[27] ?? '-'); ?></td>

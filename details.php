@@ -139,7 +139,11 @@ $questions = [
                             <div class="row">
                                 <div class="col-12"><div class="label">เบอร์โทร</div><div class="val"><?php echo htmlspecialchars($data[24] ?? '-'); ?></div></div>
                                 <div class="col-12"><div class="label">อีเมล</div><div class="val text-truncate" title="<?php echo htmlspecialchars($data[25] ?? ''); ?>"><?php echo htmlspecialchars($data[25] ?? '-'); ?></div></div>
-                                <div class="col-12"><div class="label">วันเกิด</div><div class="val"><?php echo htmlspecialchars($data[26] ?? '-'); ?></div></div>
+                                <div class="col-12"><div class="label">วันเกิด</div><div class="val"><?php echo htmlspecialchars($data[26] ?? '-'); ?> 
+                                    <span style="background: #eef2f5; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; color: #495057; border: 1px solid #dee2e6; margin-left: 5px;">
+                                        <?php echo htmlspecialchars(getBaziYearInfo($data[26] ?? '')); ?>
+                                    </span>
+                                </div></div>
                                 <div class="col-12"><div class="label">วุฒิ</div><div class="val text-truncate"><?php echo htmlspecialchars($data[27] ?? '-'); ?></div></div>
                             </div>
                             <hr class="my-2 text-muted">
