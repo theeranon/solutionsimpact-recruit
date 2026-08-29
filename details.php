@@ -316,7 +316,7 @@ $questions = [
                                         </div>
                                     </div>
                                     <h6 class="fw-bold mb-2 text-dark" style="font-size: 0.8rem; text-align: center;">5 Structures</h6>
-                                    <div style="position: relative; width: 100%; height: 200px; display: flex; justify-content: center;">
+                                    <div style="position: relative; width: 100%; height: 220px; display: flex; justify-content: center;">
                                         <canvas id="baziRadar"></canvas>
                                     </div>
                                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
