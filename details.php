@@ -91,11 +91,39 @@ $questions = [
     <title>Candidate Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .choice-item { padding: 4px; margin-bottom: 2px; font-size: 0.85rem; }
-        .choice-item .alpha { width: 20px; height: 20px; line-height: 20px; display: inline-block; text-align: center; }
-        .val { font-size: 0.9rem; }
-        .label { font-size: 0.8rem; font-weight: bold; color: #6c757d; }
+        body { font-family: 'IBM Plex Sans Thai', sans-serif; background: #f8f9fa; color: #212529; font-size: 0.95rem; }
+        .card { border: 1px solid #dee2e6; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 1rem; border-radius: 6px; }
+        .card-header { background: #fff !important; border-bottom: 1px solid #dee2e6; font-weight: 600; padding: 0.6rem 1rem; font-size: 1rem; color: #212529 !important; }
+        .card-body { padding: 1rem; }
+        .label { font-size: 0.8rem; color: #6c757d; font-weight: 600; margin-bottom: 0.1rem; text-transform: uppercase; }
+        .val { font-size: 0.95rem; margin-bottom: 0.75rem; font-weight: 500; }
+        .badge-pos { background: #e9ecef; color: #212529; font-size: 0.85rem; padding: 4px 8px; border-radius: 4px; margin: 2px 2px 2px 0; display: inline-block; border: 1px solid #ced4da; }
+        
+        .q-box { margin-bottom: 1.25rem; }
+        .q-title { font-weight: 600; margin-bottom: 0.4rem; font-size: 0.95rem; color: #0d6efd; line-height: 1.4; }
+        
+        .choice-item { 
+            padding: 4px 10px; 
+            margin-bottom: 4px; 
+            border-radius: 4px; 
+            border: 1px solid #e9ecef; 
+            background: #fff; 
+            color: #adb5bd; 
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        .choice-item.selected {
+            background: #e8f4fd;
+            border-color: #0d6efd;
+            color: #0d6efd;
+            font-weight: 600;
+        }
+        .choice-item .alpha { width: 22px; font-weight: 700; flex-shrink: 0; }
+        
+        .text-a { background: #fff; border: 1px solid #dee2e6; padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.5; }
         .print-card { page-break-inside: avoid; }
         @media print {
             .col-print-4 { flex: 0 0 33.333333% !important; max-width: 33.333333% !important; padding: 0 10px !important; }
@@ -108,22 +136,28 @@ $questions = [
 </head>
 <body class="bg-light">
     
-    <nav class="navbar navbar-dark bg-dark mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">SolutionsIMPACT Recruit</a>
-            <div class="text-white">User: <?php echo htmlspecialchars($_SESSION['username']); ?></div>
+    <div class="bg-white border-bottom mb-3 py-2 shadow-sm sticky-top">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <span class="fw-bold text-primary fs-5">SolutionsIMPACT</span>
+            <div>
+                <a href="index.php" class="btn btn-sm btn-outline-secondary">Back</a>
+            </div>
         </div>
-    </nav>
-
-    <div class="container pb-5">
+    </div>
+    
+    <div class="container-fluid pb-4">
         <?php if (!$data): ?>
             <div class="alert alert-danger">Candidate not found.</div>
         <?php else: ?>
             
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <a href="index.php" class="btn btn-outline-secondary btn-sm">&larr; Back</a>
-                <h4 class="mb-0 text-truncate" style="max-width: 60%;"><?php echo htmlspecialchars($data[1] ?? 'Unknown'); ?> (<?php echo htmlspecialchars($data[2] ?? '-'); ?>)</h4>
-                <button class="btn btn-primary btn-sm" onclick="window.print()">Print Report</button>
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-3">
+                <div>
+                    <h4 class="mb-1 text-truncate"><?php echo htmlspecialchars($data[1] ?? 'Unknown'); ?> (<?php echo htmlspecialchars($data[2] ?? '-'); ?>)</h4>
+                    <div class="text-muted small">User: <?php echo htmlspecialchars($_SESSION['username']); ?></div>
+                </div>
+                <div>
+                    <button class="btn btn-primary btn-sm" onclick="window.print()">Print Report</button>
+                </div>
             </div>
 
             <!-- Row 1: 3 Columns -->
