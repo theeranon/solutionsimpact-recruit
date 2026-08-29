@@ -4,8 +4,8 @@ require_once 'helper.php';
 requireLogin();
 
 $id = $_GET['id'] ?? null;
-if (!$id) {
-    die("No ID provided");
+if ($id === null || !is_numeric($id)) {
+    die("Invalid request.");
 }
 
 $url = GSHEET_CSV_URL;
@@ -21,20 +21,16 @@ $fp = fopen("php://memory", "r+");
 fwrite($fp, $csvData);
 rewind($fp);
 while (($row = fgetcsv($fp)) !== false) {
+    if (count($row) === 1 && $row[0] === null) continue;
     $lines[] = $row;
 }
 fclose($fp);
 
-$headers = $lines[0];
+$headers = $lines[0] ?? [];
 $data = null;
 
-// Find row with matching Timestamp (id)
-foreach ($lines as $i => $row) {
-    if ($i == 0) continue;
-    if (isset($row[0]) && md5($row[0]) === $id) {
-        $data = $row;
-        break;
-    }
+if (isset($lines[(int)$id])) {
+    $data = $lines[(int)$id];
 }
 
 $questions = [
