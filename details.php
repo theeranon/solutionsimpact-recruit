@@ -186,6 +186,55 @@ $questions = [
                         </div>
                     </div>
                     
+                    <!-- Card BaZi Chart -->
+                    <?php 
+                    $bazi = getFullBazi($data[26] ?? '');
+                    if ($bazi): 
+                    ?>
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="card-header bg-dark text-white rounded-top border-0">วิเคราะห์ดวงจีน (BaZi) 3 เสา</div>
+                        <div class="card-body bg-white rounded-bottom p-3">
+                            <table class="table table-bordered text-center mb-0" style="font-size: 0.85rem;">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>เสาเวลา (Hour)</th>
+                                        <th>เสาวัน (Day)</th>
+                                        <th>เสาเดือน (Month)</th>
+                                        <th>เสาปี (Year)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted">ไม่ระบุเวลา</td>
+                                        <td class="text-primary fw-bold"><?php echo htmlspecialchars($bazi['chart']['day']['stem10']); ?></td>
+                                        <td class="text-muted"><?php echo htmlspecialchars($bazi['chart']['month']['stem10']); ?></td>
+                                        <td class="text-muted"><?php echo htmlspecialchars($bazi['chart']['year']['stem10']); ?></td>
+                                    </tr>
+                                    <tr class="fw-bold fs-6">
+                                        <td>???</td>
+                                        <td class="text-danger"><?php echo htmlspecialchars($bazi['chart']['day']['stem']); ?></td>
+                                        <td><?php echo htmlspecialchars($bazi['chart']['month']['stem']); ?></td>
+                                        <td><?php echo htmlspecialchars($bazi['chart']['year']['stem']); ?></td>
+                                    </tr>
+                                    <tr class="fw-bold fs-6">
+                                        <td>???</td>
+                                        <td class="text-danger"><?php echo htmlspecialchars($bazi['chart']['day']['branch']); ?></td>
+                                        <td><?php echo htmlspecialchars($bazi['chart']['month']['branch']); ?></td>
+                                        <td><?php echo htmlspecialchars($bazi['chart']['year']['branch']); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">ไม่ระบุเวลา</td>
+                                        <td class="text-muted"><?php echo htmlspecialchars($bazi['chart']['day']['branch10']); ?></td>
+                                        <td class="text-muted"><?php echo htmlspecialchars($bazi['chart']['month']['branch10']); ?></td>
+                                        <td class="text-muted"><?php echo htmlspecialchars($bazi['chart']['year']['branch10']); ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="mt-2 text-muted" style="font-size: 0.75rem;">* ผูกดวง 3 เสาจากวันที่เกิด (ไม่มีเวลาเกิด) คำนวณ Ten Gods จากดิถี (Day Master) โดยตรง ไม่พึ่งพา API ภายนอก</div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
                     <!-- Card 3: LeaderShift™ Level -->
                     <div class="card mb-3 shadow-sm border-0">
                         <div class="card-header bg-dark text-white rounded-top border-0">LeaderShift™ Level</div>
