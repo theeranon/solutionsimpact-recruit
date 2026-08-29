@@ -35,8 +35,8 @@ if (isset($lines[(int)$id])) {
 
 $questions = [
     ['id' => 30, 'title' => 'คุณคิดว่าคุณเก่งอะไร หรือ ภูมิใจอะไร 3 เรื่อง เล่าเหตุการณ์ให้ฟังหน่อย'],
-    ['id' => 31, 'title' => 'เป้าหมายของคุณในอีก 3 ปีข้างหน้า คืออะไร?'],
-    ['id' => 32, 'title' => 'ข้อเสียของคุณในมุมมองของคุณคือ (ไม่เอาคำตอบดารา)'],
+    ['id' => 31, 'title' => 'เป้าหมายของคุณในอีก 3 ปีข้างหน้า'],
+    ['id' => 32, 'title' => 'ข้อเสียของคุณในมุมมองของคุณคือ'],
     ['id' => 33, 'title' => 'นิยามของคำว่า WORK LIFE BALANCE ใกล้เคียงกับข้อใดมากที่สุด?', 'choices' => [
         'ทำงานให้เสร็จตามเวลาที่กำหนด หลังจากนั้นเป็นเวลาส่วนตัว ห้ามเรื่องงานมารบกวน',
         'ทำงานหนักได้ตามความจำเป็น แต่ต้องมีเวลาพักผ่อนและดูแลตัวเองอย่างเพียงพอ',
@@ -95,14 +95,14 @@ $questions = [
     <style>
         body { font-family: 'IBM Plex Sans Thai', sans-serif; background: #f8f9fa; color: #212529; font-size: 0.95rem; }
         .card { border: 1px solid #dee2e6; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 1rem; border-radius: 6px; }
-        .card-header { background: #fff !important; border-bottom: 1px solid #dee2e6; font-weight: 600; padding: 0.6rem 1rem; font-size: 1rem; color: #212529 !important; }
+        .card-header { background: #343a40 !important; border-bottom: none; font-weight: 600; padding: 0.75rem 1rem; font-size: 1rem; color: #fff !important; border-radius: 6px 6px 0 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         .card-body { padding: 1rem; }
         .label { font-size: 0.8rem; color: #6c757d; font-weight: 600; margin-bottom: 0.1rem; text-transform: uppercase; }
         .val { font-size: 0.95rem; margin-bottom: 0.75rem; font-weight: 500; }
         .badge-pos { background: #e9ecef; color: #212529; font-size: 0.85rem; padding: 4px 8px; border-radius: 4px; margin: 2px 2px 2px 0; display: inline-block; border: 1px solid #ced4da; }
         
         .q-box { margin-bottom: 1.25rem; }
-        .q-title { font-weight: 600; margin-bottom: 0.4rem; font-size: 0.95rem; color: #0d6efd; line-height: 1.4; }
+        .q-title { font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem; color: #0d6efd; line-height: 1.4; }
         
         .choice-item { 
             padding: 4px 10px; 
@@ -124,13 +124,18 @@ $questions = [
         .choice-item .alpha { width: 22px; font-weight: 700; flex-shrink: 0; }
         
         .text-a { background: #fff; border: 1px solid #dee2e6; padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.5; }
-        .print-card { page-break-inside: avoid; }
+        .print-card { page-break-inside: avoid; margin-bottom: 15px !important; }
         @media print {
-            .col-print-4 { flex: 0 0 33.333333% !important; max-width: 33.333333% !important; padding: 0 10px !important; }
-            .col-print-6 { flex: 0 0 50% !important; max-width: 50% !important; padding: 0 10px !important; }
-            .col-print-12 { flex: 0 0 100% !important; max-width: 100% !important; padding: 0 10px !important; }
-            .print-row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; width: 100% !important; }
-            .print-wrap-row { display: flex !important; flex-wrap: wrap !important; width: 100% !important; }
+            body { font-size: 11pt !important; background: #fff !important; }
+            .container-fluid { padding: 0 !important; }
+            .card { box-shadow: none !important; border: 1px solid #ccc !important; }
+            .col-print-4 { flex: 0 0 33.333333% !important; max-width: 33.333333% !important; padding: 0 8px !important; }
+            .col-print-6 { flex: 0 0 50% !important; max-width: 50% !important; padding: 0 8px !important; }
+            .col-print-12 { flex: 0 0 100% !important; max-width: 100% !important; padding: 0 8px !important; }
+            .print-row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; width: 100% !important; page-break-inside: avoid; }
+            .q-box { margin-bottom: 0.75rem !important; }
+            .text-a { height: auto !important; max-height: none !important; overflow: visible !important; border: 1px solid #ddd !important; }
+            @page { size: A4 landscape; margin: 10mm; }
         }
     </style>
 </head>
@@ -183,6 +188,7 @@ $questions = [
                                 <table class="table table-bordered text-center mb-0" style="font-size: 0.75rem;">
                                     <thead class="table-light">
                                         <tr>
+                                            <th>เสาเวลา(Hour)</th>
                                             <th>เสาวัน(Day)</th>
                                             <th>เสาเดือน(Month)</th>
                                             <th>เสาปี(Year)</th>
@@ -190,21 +196,25 @@ $questions = [
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td class="text-muted">-</td>
                                             <td class="text-primary fw-bold text-truncate" style="max-width:60px;"><?php echo htmlspecialchars($bazi['chart']['day']['stem10']); ?></td>
                                             <td class="text-muted text-truncate" style="max-width:60px;"><?php echo htmlspecialchars($bazi['chart']['month']['stem10']); ?></td>
                                             <td class="text-muted text-truncate" style="max-width:60px;"><?php echo htmlspecialchars($bazi['chart']['year']['stem10']); ?></td>
                                         </tr>
                                         <tr class="fw-bold fs-6">
+                                            <td class="text-muted">-</td>
                                             <td class="text-danger"><?php echo htmlspecialchars($bazi['chart']['day']['stem']); ?></td>
                                             <td><?php echo htmlspecialchars($bazi['chart']['month']['stem']); ?></td>
                                             <td><?php echo htmlspecialchars($bazi['chart']['year']['stem']); ?></td>
                                         </tr>
                                         <tr class="fw-bold fs-6">
+                                            <td class="text-muted">-</td>
                                             <td class="text-danger"><?php echo htmlspecialchars($bazi['chart']['day']['branch']); ?></td>
                                             <td><?php echo htmlspecialchars($bazi['chart']['month']['branch']); ?></td>
                                             <td><?php echo htmlspecialchars($bazi['chart']['year']['branch']); ?></td>
                                         </tr>
                                         <tr>
+                                            <td class="text-muted">-</td>
                                             <td class="text-muted text-truncate" style="max-width:60px;"><?php echo htmlspecialchars($bazi['chart']['day']['branch10']); ?></td>
                                             <td class="text-muted text-truncate" style="max-width:60px;"><?php echo htmlspecialchars($bazi['chart']['month']['branch10']); ?></td>
                                             <td class="text-muted text-truncate" style="max-width:60px;"><?php echo htmlspecialchars($bazi['chart']['year']['branch10']); ?></td>
@@ -358,7 +368,7 @@ $questions = [
                         ?>
                             <div class="col-md-4 col-print-4">
                                 <div class="q-title text-dark fw-bold mb-2" style="font-size: 0.9rem; min-height: 2.5rem;"><?php echo htmlspecialchars($q['title']); ?></div>
-                                <div class="text-a border-0 p-3 mb-0 bg-light text-dark" style="border-radius: 8px; font-size: 0.85rem; line-height: 1.6; white-space: pre-wrap; height: calc(100% - 3rem); overflow-y: auto;"><?php echo htmlspecialchars($answer); ?></div>
+                                <div class="text-a border-0 p-3 mb-0 bg-light text-dark" style="border-radius: 8px; font-size: 0.85rem; line-height: 1.6; white-space: pre-wrap; height: 100%;"><?php echo htmlspecialchars($answer); ?></div>
                             </div>
                         <?php endforeach; ?>
                     </div>
