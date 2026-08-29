@@ -127,16 +127,14 @@ $questions = [
                 </div>
             </div>
 
-            <div class="row g-3">
-                
-                <!-- Left Column (30%) -->
-                <div class="col-lg-4">
-                    
-                    <!-- Card 1: ข้อมูลส่วนตัว & สมัครงาน -->
-                    <div class="card mb-3 shadow-sm border-0">
+            <!-- Row 1: 3 Columns -->
+            <div class="row g-3 mb-3 print-row">
+                <!-- Col 1: ข้อมูลส่วนตัว -->
+                <div class="col-lg-4 col-print-4">
+                    <div class="card h-100 shadow-sm border-0 print-card">
                         <div class="card-header bg-dark text-white rounded-top border-0">ข้อมูลส่วนตัว & สมัครงาน</div>
-                        <div class="card-body bg-white rounded-bottom">
-                            <div class="row">
+                        <div class="card-body bg-white rounded-bottom p-3">
+                            <div class="row g-2">
                                 <div class="col-12"><div class="label">เบอร์โทร</div><div class="val"><?php echo htmlspecialchars($data[24] ?? '-'); ?></div></div>
                                 <div class="col-12"><div class="label">อีเมล</div><div class="val text-truncate" title="<?php echo htmlspecialchars($data[25] ?? ''); ?>"><?php echo htmlspecialchars($data[25] ?? '-'); ?></div></div>
                                 <div class="col-12"><div class="label">วันเกิด</div><div class="val"><?php echo htmlspecialchars($data[26] ?? '-'); ?> 
@@ -165,7 +163,7 @@ $questions = [
                             </div>
                             <div class="label">ทำไมถึงสนใจ</div>
                             <div class="val fs-6 text-muted" style="white-space: pre-wrap; line-height: 1.4;"><?php echo htmlspecialchars($data[21] ?? '-'); ?></div>
-                            <div class="row mt-2">
+                            <div class="row mt-2 g-2">
                                 <div class="col-6"><div class="label">คาดหวัง</div><div class="val text-success fw-bold"><?php echo htmlspecialchars($data[42] ?? '-'); ?></div></div>
                                 <div class="col-6"><div class="label">ต่ำสุด</div><div class="val text-danger fw-bold"><?php echo htmlspecialchars($data[43] ?? '-'); ?></div></div>
                             </div>
@@ -179,19 +177,90 @@ $questions = [
                                 if ($answer === '') continue;
                             ?>
                                 <div class="q-box border-bottom pb-2 mb-2">
-                                    <div class="q-title text-dark"><?php echo htmlspecialchars($q['title']); ?></div>
-                                    <div class="text-a border-0 p-0 mb-0"><?php echo htmlspecialchars($answer); ?></div>
+                                    <div class="q-title text-dark" style="font-size: 0.9rem;"><?php echo htmlspecialchars($q['title']); ?></div>
+                                    <div class="text-a border-0 p-0 mb-0" style="font-size: 0.85rem;"><?php echo htmlspecialchars($answer); ?></div>
                                 </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
-                    
-                    <!-- Card BaZi Chart -->
+                </div>
+
+                <!-- Col 2: LeaderShift™ Level -->
+                <div class="col-lg-4 col-print-4">
+                    <div class="card h-100 shadow-sm border-0 print-card">
+                        <div class="card-header bg-dark text-white rounded-top border-0">LeaderShift™ Level</div>
+                        <div class="card-body bg-white rounded-bottom p-3">
+                            <?php 
+                            $leaderShiftQs = [33, 34, 35];
+                            foreach ($questions as $q):
+                                if (!in_array($q['id'], $leaderShiftQs)) continue;
+                                $answer = trim($data[$q['id']] ?? '');
+                                if ($answer === '') continue;
+                            ?>
+                                <div class="q-box border-bottom pb-2 mb-2">
+                                    <div class="q-title text-dark" style="font-size: 0.9rem;"><?php echo htmlspecialchars($q['title']); ?></div>
+                                    <?php 
+                                    $alphas = ['A', 'B', 'C', 'D'];
+                                    $matched = false;
+                                    foreach ($q['choices'] as $cIdx => $choiceText) {
+                                        $isSelected = (strpos($answer, $choiceText) !== false || strpos($choiceText, $answer) !== false);
+                                        if ($isSelected) $matched = true;
+                                        $cssClass = $isSelected ? 'selected' : '';
+                                        echo "<div class='choice-item $cssClass' style='padding: 4px; margin-bottom: 2px; font-size: 0.85rem;'><span class='alpha' style='width:20px;height:20px;line-height:20px;'>".$alphas[$cIdx]."</span> <span>".htmlspecialchars($choiceText)."</span></div>";
+                                    }
+                                    if (!$matched && $answer !== '') {
+                                        echo "<div class='choice-item selected' style='padding: 4px; margin-bottom: 2px; font-size: 0.85rem;'><span class='alpha' style='width:20px;height:20px;line-height:20px;'>*</span> <span>".htmlspecialchars($answer)."</span></div>";
+                                    }
+                                    ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Col 3: Talent Profile -->
+                <div class="col-lg-4 col-print-4">
+                    <div class="card h-100 shadow-sm border-0 print-card">
+                        <div class="card-header bg-dark text-white rounded-top border-0">Talent Profile</div>
+                        <div class="card-body bg-white rounded-bottom p-3">
+                            <?php 
+                            $talentQs = [37, 38, 39, 40];
+                            foreach ($questions as $q):
+                                if (!in_array($q['id'], $talentQs)) continue;
+                                $answer = trim($data[$q['id']] ?? '');
+                                if ($answer === '') continue;
+                            ?>
+                                <div class="q-box border-bottom pb-2 mb-2">
+                                    <div class="q-title text-dark" style="font-size: 0.9rem;"><?php echo htmlspecialchars($q['title']); ?></div>
+                                    <?php 
+                                    $alphas = ['A', 'B', 'C', 'D'];
+                                    $matched = false;
+                                    foreach ($q['choices'] as $cIdx => $choiceText) {
+                                        $isSelected = (strpos($answer, $choiceText) !== false || strpos($choiceText, $answer) !== false);
+                                        if ($isSelected) $matched = true;
+                                        $cssClass = $isSelected ? 'selected' : '';
+                                        echo "<div class='choice-item $cssClass' style='padding: 4px; margin-bottom: 2px; font-size: 0.85rem;'><span class='alpha' style='width:20px;height:20px;line-height:20px;'>".$alphas[$cIdx]."</span> <span>".htmlspecialchars($choiceText)."</span></div>";
+                                    }
+                                    if (!$matched && $answer !== '') {
+                                        echo "<div class='choice-item selected' style='padding: 4px; margin-bottom: 2px; font-size: 0.85rem;'><span class='alpha' style='width:20px;height:20px;line-height:20px;'>*</span> <span>".htmlspecialchars($answer)."</span></div>";
+                                    }
+                                    ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: 2 Columns -->
+            <div class="row g-3 print-row">
+                <!-- Col 1: BaZi Chart -->
+                <div class="col-lg-5 col-print-5">
                     <?php 
                     $bazi = getFullBazi($data[26] ?? '');
                     if ($bazi): 
                     ?>
-                    <div class="card mb-3 shadow-sm border-0">
+                    <div class="card h-100 shadow-sm border-0 print-card">
                         <div class="card-header bg-dark text-white rounded-top border-0">วิเคราะห์ดวงจีน (BaZi) 3 เสา</div>
                         <div class="card-body bg-white rounded-bottom p-3">
                             <table class="table table-bordered text-center mb-0" style="font-size: 0.85rem;">
@@ -234,76 +303,11 @@ $questions = [
                         </div>
                     </div>
                     <?php endif; ?>
-                    
-                    <!-- Card 3: LeaderShift™ Level -->
-                    <div class="card mb-3 shadow-sm border-0">
-                        <div class="card-header bg-dark text-white rounded-top border-0">LeaderShift™ Level</div>
-                        <div class="card-body bg-white rounded-bottom p-3">
-                            <?php 
-                            $leaderShiftQs = [33, 34, 35];
-                            foreach ($questions as $q):
-                                if (!in_array($q['id'], $leaderShiftQs)) continue;
-                                $answer = trim($data[$q['id']] ?? '');
-                                if ($answer === '') continue;
-                            ?>
-                                <div class="q-box border-bottom pb-2 mb-2">
-                                    <div class="q-title text-dark"><?php echo htmlspecialchars($q['title']); ?></div>
-                                    <?php 
-                                    $alphas = ['A', 'B', 'C', 'D'];
-                                    $matched = false;
-                                    foreach ($q['choices'] as $cIdx => $choiceText) {
-                                        $isSelected = (strpos($answer, $choiceText) !== false || strpos($choiceText, $answer) !== false);
-                                        if ($isSelected) $matched = true;
-                                        $cssClass = $isSelected ? 'selected' : '';
-                                        echo "<div class='choice-item $cssClass'><span class='alpha'>".$alphas[$cIdx]."</span> <span>".htmlspecialchars($choiceText)."</span></div>";
-                                    }
-                                    if (!$matched && $answer !== '') {
-                                        echo "<div class='choice-item selected'><span class='alpha'>*</span> <span>".htmlspecialchars($answer)."</span></div>";
-                                    }
-                                    ?>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Talent Profile -->
-                    <div class="card mb-3 shadow-sm border-0">
-                        <div class="card-header bg-dark text-white rounded-top border-0">Talent Profile</div>
-                        <div class="card-body bg-white rounded-bottom p-3">
-                            <?php 
-                            $talentQs = [37, 38, 39, 40];
-                            foreach ($questions as $q):
-                                if (!in_array($q['id'], $talentQs)) continue;
-                                $answer = trim($data[$q['id']] ?? '');
-                                if ($answer === '') continue;
-                            ?>
-                                <div class="q-box border-bottom pb-2 mb-2">
-                                    <div class="q-title text-dark"><?php echo htmlspecialchars($q['title']); ?></div>
-                                    <?php 
-                                    $alphas = ['A', 'B', 'C', 'D'];
-                                    $matched = false;
-                                    foreach ($q['choices'] as $cIdx => $choiceText) {
-                                        $isSelected = (strpos($answer, $choiceText) !== false || strpos($choiceText, $answer) !== false);
-                                        if ($isSelected) $matched = true;
-                                        $cssClass = $isSelected ? 'selected' : '';
-                                        echo "<div class='choice-item $cssClass'><span class='alpha'>".$alphas[$cIdx]."</span> <span>".htmlspecialchars($choiceText)."</span></div>";
-                                    }
-                                    if (!$matched && $answer !== '') {
-                                        echo "<div class='choice-item selected'><span class='alpha'>*</span> <span>".htmlspecialchars($answer)."</span></div>";
-                                    }
-                                    ?>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- Right Column (70%) -->
-                <div class="col-lg-8">
-                    
-                    <!-- Card 2: ทัศนคติและเป้าหมาย (Attitude & Mindset) -->
-                    <div class="card mb-3 shadow-sm border-0 h-100">
+                <!-- Col 2: Attitude & Mindset -->
+                <div class="col-lg-7 col-print-7">
+                    <div class="card h-100 shadow-sm border-0 print-card">
                         <div class="card-header bg-dark text-white rounded-top border-0">ทัศนคติและเป้าหมาย (Attitude & Mindset)</div>
                         <div class="card-body bg-white rounded-bottom p-4">
                             <?php 
@@ -314,13 +318,12 @@ $questions = [
                                 if ($answer === '') continue;
                             ?>
                                 <div class="q-box border-bottom pb-4 mb-4">
-                                    <div class="q-title text-dark fs-5 mb-3"><?php echo htmlspecialchars($q['title']); ?></div>
-                                    <div class="text-a border-0 p-3 mb-0 fs-6 bg-light text-dark" style="border-radius: 8px;"><?php echo htmlspecialchars($answer); ?></div>
+                                    <div class="q-title text-dark fs-6 mb-2 fw-bold"><?php echo htmlspecialchars($q['title']); ?></div>
+                                    <div class="text-a border-0 p-3 mb-0 bg-light text-dark" style="border-radius: 8px; font-size: 0.9rem; line-height: 1.5; white-space: pre-wrap;"><?php echo htmlspecialchars($answer); ?></div>
                                 </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
-
                 </div>
             </div>
             
