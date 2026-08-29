@@ -125,7 +125,8 @@ $questions = [
         
         .text-a { background: #fff; border: 1px solid #dee2e6; padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.5; }
                 .print-card { margin-bottom: 15px !important; }
-        @media print {
+                @media print {
+            html { font-size: 60% !important; }
             body { font-size: 10pt !important; background: #fff !important; }
             .container-fluid { padding: 0 !important; }
             .card { box-shadow: none !important; border: 1px solid #ccc !important; }
