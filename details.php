@@ -126,16 +126,16 @@ $questions = [
         .text-a { background: #fff; border: 1px solid #dee2e6; padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.5; }
                 .print-card { margin-bottom: 15px !important; }
         @media print {
-            body { font-size: 10pt !important; background: #fff !important; }
+            body { font-size: 10pt !important; background: #fff !important; zoom: 0.65; }
             .container-fluid { padding: 0 !important; }
             .card { box-shadow: none !important; border: 1px solid #ccc !important; }
-            .card-body { padding: 10px !important; }
+            .card-body { padding: 8px !important; }
             
             .col-print-3, .col-print-4, .col-print-6, .col-print-8, .col-print-12 { padding: 0 8px !important; }
             
             .print-row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; width: 100% !important; page-break-inside: avoid !important; page-break-after: always !important; }
             
-            .q-box { margin-bottom: 0.75rem !important; page-break-inside: avoid; }
+            .q-box { margin-bottom: 0.5rem !important; page-break-inside: avoid; }
             .text-a { height: auto !important; max-height: none !important; overflow: visible !important; border: 1px solid #ddd !important; white-space: pre-wrap !important; word-wrap: break-word !important; }
             
             h4 { page-break-after: avoid; margin-bottom: 15px !important; }
