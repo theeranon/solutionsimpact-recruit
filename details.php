@@ -129,7 +129,7 @@ $questions = [
             body { font-size: 11pt !important; background: #fff !important; }
             .container-fluid { padding: 0 !important; }
             .card { box-shadow: none !important; border: 1px solid #ccc !important; }
-            .col-print-4 { flex: 0 0 33.333333% !important; max-width: 33.333333% !important; padding: 0 8px !important; }
+            .col-print-4, .col-print-3 { padding: 0 8px !important; }
             .col-print-6 { flex: 0 0 50% !important; max-width: 50% !important; padding: 0 8px !important; }
             .col-print-12 { flex: 0 0 100% !important; max-width: 100% !important; padding: 0 8px !important; }
             .print-row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; width: 100% !important; page-break-inside: avoid; }
@@ -141,11 +141,11 @@ $questions = [
 </head>
 <body class="bg-light">
     
-    <div class="bg-white border-bottom mb-3 py-2 shadow-sm sticky-top">
+    <div class="bg-white border-bottom mb-3 py-2 shadow-sm sticky-top d-print-none">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <span class="fw-bold text-primary fs-5">SolutionsIMPACT</span>
             <div>
-                <a href="index.php" class="btn btn-sm btn-outline-secondary">Back</a>
+                <a href="index.php" class="btn btn-sm btn-outline-secondary px-3">Back</a>
             </div>
         </div>
     </div>
@@ -157,10 +157,11 @@ $questions = [
             
             <div class="d-flex flex-wrap justify-content-between align-items-end mb-3">
                 <div>
-                    <h4 class="mb-1 text-truncate"><?php echo htmlspecialchars($data[1] ?? 'Unknown'); ?> (<?php echo htmlspecialchars($data[2] ?? '-'); ?>)</h4>
-                    <div class="text-muted small">User: <?php echo htmlspecialchars($_SESSION['username']); ?></div>
+                    <h4 class="mb-1 text-truncate fw-bold"><?php echo htmlspecialchars($data[23] ?? 'Unknown Name'); ?> <?php if(!empty($data[22])) echo "(".htmlspecialchars($data[22]).")"; ?></h4>
                 </div>
-                <div>
+                <div class="d-flex gap-2 d-print-none">
+                    <?php if(!empty($data[28])): ?><a href="<?php echo htmlspecialchars(trim($data[28])); ?>" target="_blank" class="btn btn-sm btn-outline-primary">View Resume</a><?php endif; ?>
+                    <?php if(!empty($data[29])): ?><a href="<?php echo htmlspecialchars(trim($data[29])); ?>" target="_blank" class="btn btn-sm btn-outline-dark">View Portfolio</a><?php endif; ?>
                     <button class="btn btn-primary btn-sm" onclick="window.print()">Print Report</button>
                 </div>
             </div>
@@ -168,7 +169,7 @@ $questions = [
             <!-- Row 1: 3 Columns -->
             <div class="row g-3 mb-3 print-row">
                 <!-- Col 1: ข้อมูลส่วนตัว & BaZi -->
-                <div class="col-lg-4 col-print-4">
+                <div class="col-lg-3 col-print-3" style="flex: 0 0 20%; max-width: 20%;">
                     <div class="card h-100 shadow-sm border-0 print-card">
                         <div class="card-header bg-dark text-white rounded-top border-0">ข้อมูลส่วนตัว & BaZi</div>
                         <div class="card-body bg-white rounded-bottom p-3">
@@ -228,7 +229,7 @@ $questions = [
                 </div>
 
                 <!-- Col 2: LeaderShift™ Level -->
-                <div class="col-lg-4 col-print-4">
+                <div class="col-lg-4 col-print-4" style="flex: 0 0 40%; max-width: 40%;">
                     <div class="card h-100 shadow-sm border-0 print-card">
                         <div class="card-header bg-dark text-white rounded-top border-0">LeaderShift™ Level</div>
                         <div class="card-body bg-white rounded-bottom p-3">
@@ -261,7 +262,7 @@ $questions = [
                 </div>
 
                 <!-- Col 3: Talent Profile -->
-                <div class="col-lg-4 col-print-4">
+                <div class="col-lg-4 col-print-4" style="flex: 0 0 40%; max-width: 40%;">
                     <div class="card h-100 shadow-sm border-0 print-card">
                         <div class="card-header bg-dark text-white rounded-top border-0">Talent Profile</div>
                         <div class="card-body bg-white rounded-bottom p-3">
@@ -301,7 +302,7 @@ $questions = [
                     <div class="row g-4 print-row">
                         
                         <!-- Left 50% -->
-                        <div class="col-md-6 col-print-6">
+                        <div class="col-md-4 col-print-4" style="flex: 0 0 30%; max-width: 30%;">
                             <div class="label fs-6 mb-1 text-dark">ตำแหน่งที่สนใจ</div>
                             <div class="mb-3">
                                 <?php 
@@ -335,7 +336,7 @@ $questions = [
                         </div>
 
                         <!-- Right 50% -->
-                        <div class="col-md-6 col-print-6 border-start">
+                        <div class="col-md-8 col-print-8 border-start" style="flex: 0 0 70%; max-width: 70%;">
                             <?php 
                             $expectQs = [36, 41];
                             foreach ($questions as $q):
