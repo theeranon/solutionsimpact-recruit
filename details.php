@@ -266,7 +266,7 @@ $questions = [
                             ?>
                             <div class="mt-2 pt-2 border-top">
                                 <div class="label mb-2 text-dark">วิเคราะห์ดวงจีน (BaZi) 3 เสา</div>
-                                <table class="table table-bordered text-center mb-0" style="font-size: 0.75rem;">
+                                <table class="table table-bordered table-sm text-center mb-0" style="font-size: 0.65rem;">
                                     <thead class="table-light">
                                         <tr>
                                             <th>เสาเวลา(Hour)</th>
@@ -336,7 +336,7 @@ $questions = [
                                                             <?php echo $baziStats['structures']['Influence']; ?>,
                                                             <?php echo $baziStats['structures']['Resource']; ?>
                                                         ],
-                                                        backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                                                        backgroundColor: 'rgba(13, 110, 253, 0.4)',
                                                         borderColor: 'rgba(13, 110, 253, 1)',
                                                         pointBackgroundColor: 'rgba(13, 110, 253, 1)',
                                                         borderWidth: 2,
@@ -350,8 +350,8 @@ $questions = [
                                                     scales: {
                                                         r: {
                                                             beginAtZero: true,
-                                                            min: 0,
-                                                            max: 100,
+                                                            min: 0, suggestedMax: 60,
+                                                            
                                                             ticks: { display: false, stepSize: 25 },
                                                             pointLabels: {
                                                                 font: { size: 9 },
