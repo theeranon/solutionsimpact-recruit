@@ -376,7 +376,8 @@ $questions = [
             </div>
 
             <!-- Row 2: สมัครงาน (50 / 50) -->
-            <div class="card shadow-sm border-0 mb-3 print-card row-job-expect">
+            <div class="d-none d-print-block" style="page-break-before: always !important; clear: both; height: 0;"></div>
+<div class="card shadow-sm border-0 mb-3 print-card row-job-expect">
                 <div class="card-header bg-dark text-white rounded-top border-0">การสมัครงาน และความคาดหวัง</div>
                 <div class="card-body bg-white rounded-bottom p-4">
                     <div class="row g-4 print-row page-break-after-row">
@@ -436,7 +437,8 @@ $questions = [
             </div>
 
             <!-- Row 3: ทัศนคติและเป้าหมาย (Redesigned as columns to avoid horizontal stretching) -->
-            <div class="card shadow-sm border-0 mb-3 print-card row-attitude">
+            <div class="d-none d-print-block" style="page-break-before: always !important; clear: both; height: 0;"></div>
+<div class="card shadow-sm border-0 mb-3 print-card row-attitude">
                 <div class="card-header bg-dark text-white rounded-top border-0">ทัศนคติและเป้าหมาย (Attitude & Mindset)</div>
                 <div class="card-body bg-white rounded-bottom p-4">
                     <div class="row g-4 attitude-row">
