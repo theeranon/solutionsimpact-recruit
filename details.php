@@ -134,7 +134,7 @@ $questions = [
             
             .col-print-3, .col-print-4, .col-print-6, .col-print-8, .col-print-12 { padding: 0 8px !important; }
             
-            .print-row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; width: 100% !important; page-break-inside: avoid !important; page-break-after: always !important; }
+            .print-row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; width: 100% !important; page-break-after: always !important; }
             
             .q-box { margin-bottom: 0.5rem !important; page-break-inside: avoid; }
             .text-a { height: auto !important; max-height: none !important; overflow: visible !important; border: 1px solid #ddd !important; white-space: pre-wrap !important; word-wrap: break-word !important; }
