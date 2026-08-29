@@ -124,16 +124,16 @@ $questions = [
         .choice-item .alpha { width: 22px; font-weight: 700; flex-shrink: 0; }
         
         .text-a { background: #fff; border: 1px solid #dee2e6; padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.5; }
-                .print-card { margin-bottom: 15px !important; page-break-inside: auto !important; }
+                .print-card { margin-bottom: 15px !important; }
         @media print {
             body { font-size: 10pt !important; background: #fff !important; }
             .container-fluid { padding: 0 !important; }
-            .card { box-shadow: none !important; border: 1px solid #ccc !important; page-break-inside: auto !important; }
+            .card { box-shadow: none !important; border: 1px solid #ccc !important; }
             .card-body { padding: 10px !important; }
             
             .col-print-3, .col-print-4, .col-print-6, .col-print-8, .col-print-12 { padding: 0 8px !important; }
             
-            .print-row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; width: 100% !important; page-break-inside: auto !important; }
+            .print-row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; width: 100% !important; page-break-inside: avoid !important; page-break-after: always !important; }
             
             .q-box { margin-bottom: 0.75rem !important; page-break-inside: avoid; }
             .text-a { height: auto !important; max-height: none !important; overflow: visible !important; border: 1px solid #ddd !important; white-space: pre-wrap !important; word-wrap: break-word !important; }
@@ -144,7 +144,7 @@ $questions = [
             .attitude-row { display: block !important; width: 100% !important; }
             .attitude-row::after { content: ""; display: table; clear: both; }
             
-            @page { size: A4 landscape; margin: 10mm; }
+            
         }
             .btn-james {
             height: 32px;
@@ -174,6 +174,8 @@ $questions = [
             color: #fff;
         }
         .btn-james-dark:hover { background: #1c1f23; border-color: #1a1e21; color: #fff; }
+            .row-job-expect { page-break-after: always !important; page-break-inside: avoid !important; }
+        .row-attitude { page-break-inside: auto !important; }
     </style>
 </head>
 <body class="bg-light">
@@ -364,10 +366,10 @@ $questions = [
             </div>
 
             <!-- Row 2: สมัครงาน (50 / 50) -->
-            <div class="card shadow-sm border-0 mb-3 print-card">
+            <div class="card shadow-sm border-0 mb-3 print-card row-job-expect">
                 <div class="card-header bg-dark text-white rounded-top border-0">การสมัครงาน และความคาดหวัง</div>
                 <div class="card-body bg-white rounded-bottom p-4">
-                    <div class="row g-4 print-row">
+                    <div class="row g-4 print-row page-break-after-row">
                         
                         <!-- Left 50% -->
                         <div class="col-md-4 col-print-4" style="flex: 0 0 30%; max-width: 30%;">
@@ -424,7 +426,7 @@ $questions = [
             </div>
 
             <!-- Row 3: ทัศนคติและเป้าหมาย (Redesigned as columns to avoid horizontal stretching) -->
-            <div class="card shadow-sm border-0 mb-3 print-card">
+            <div class="card shadow-sm border-0 mb-3 print-card row-attitude">
                 <div class="card-header bg-dark text-white rounded-top border-0">ทัศนคติและเป้าหมาย (Attitude & Mindset)</div>
                 <div class="card-body bg-white rounded-bottom p-4">
                     <div class="row g-4 attitude-row">
